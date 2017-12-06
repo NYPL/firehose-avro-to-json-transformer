@@ -1,7 +1,7 @@
 # Kinesis Firehose Avro to Json Transformer Lambda
-[![Coverage Status](https://coveralls.io/repos/github/NYPL/avro-to-json-transformer/badge.svg?branch=master)](https://coveralls.io/github/NYPL/avro-to-json-transformer?branch=master)
-[![Build Status](https://travis-ci.org/NYPL/avro-to-json-transformer.svg?branch=master)](https://travis-ci.org/NYPL/avro-to-json-transformer)
-[![Dependency Status](https://gemnasium.com/badges/github.com/NYPL/avro-to-json-transformer.svg)](https://gemnasium.com/github.com/NYPL/avro-to-json-transformer)
+[![firehose-Coverage Status](https://coveralls.io/repos/github/NYPL/firehose-avro-to-json-transformer/badge.svg?branch=master)](https://coveralls.io/github/NYPL/firehose-avro-to-json-transformer?branch=master)
+[![Build Status](https://travis-ci.org/NYPL/firehose-avro-to-json-transformer.svg?branch=master)](https://travis-ci.org/NYPL/firehose-avro-to-json-transformer)
+[![Dependency Status](https://gemnasium.com/badges/github.com/NYPL/firehose-avro-to-json-transformer.svg)](https://gemnasium.com/github.com/NYPL/firehose-avro-to-json-transformer)
 
 Simple record transformation lambda for pre-processing data for ingestion
 by Amazon Redshift written in Node JS (ES7 via Babel).

@@ -1,7 +1,7 @@
 {
-  "name": "avro-to-json-transformer",
+  "name": "firehose-avro-to-json-transformer",
   "version": "1.0.0",
-  "description": "Converts Kinesis Firehose Avro records  to JSON for writing to S3 and Amazon Redshift.",
+  "description": "Converts Kinesis Firehose records in Avro to JSON for ingest by Amazon Redshift.",
   "main": "index.js",
   "scripts": {
     "clean": "./node_modules/.bin/rimraf dist",
@@ -25,7 +25,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NYPL/dw-circ-trans-transformer.git"
+    "url": "git+https://github.com/NYPL/firehose-avro-to-json-transformer.git"
   },
   "keywords": [
     "aws",
@@ -34,10 +34,10 @@
     "kinesis",
     "firehose"
   ],
-  "author": "NYPL Data Warehouse Team",
+  "author": "NYPL Data Warehouse Team & Rafael Hernandez",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/NYPL/nypl-hold-request-consumer/issues"
+    "url": "https://github.com/NYPL/firehose-avro-to-json-transformer/issues"
   },
   "dependencies": {
     "async": "2.5.0",
