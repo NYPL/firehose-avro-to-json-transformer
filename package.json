@@ -1,0 +1,89 @@
+{
+  "name": "avro-to-json-transformer",
+  "version": "1.0.0",
+  "description": "Converts Kinesis Firehose Avro records  to JSON for writing to S3 and Amazon Redshift.",
+  "main": "index.js",
+  "scripts": {
+    "clean": "./node_modules/.bin/rimraf dist",
+    "build": "npm run clean && babel index.js --out-dir dist && babel src --out-dir dist/src",
+    "lint": "./node_modules/.bin/standard",
+    "local-run": "npm run build && ./node_modules/.bin/node-lambda run -f ./config/local.env -j ./sample/sample_event.json --handler dist/index.handler",
+    "deploy-dev": "npm run build && ./node_modules/.bin/node-lambda deploy -e development -f ./config/dev.env -S config/event_sources_dev.json --handler dist/index.handler",
+    "deploy-qa": "npm run build && ./node_modules/.bin/node-lambda deploy -e qa -f ./config/qa.env -S config/event_sources_qa.json --handler dist/index.handler",
+    "deploy-prod": "npm run build && ./node_modules/.bin/node-lambda deploy -e production -f ./config/prod.env -S config/event_sources_prod.json --handler dist/index.handler",
+    "package": "./node_modules/.bin/node-lambda package",
+    "setup-node-lambda-env": "cp ./sample/.env.sample ./.env",
+    "setup-local-env": "mkdir -p config && cp ./sample/deployment.env.sample ./config/local.env",
+    "setup-dev-env": "mkdir -p config && cp ./sample/deployment.env.sample ./config/dev.env",
+    "setup-prod-env": "mkdir -p config && cp ./sample/deployment.env.sample ./config/prod.env",
+    "setup-dev-sources": "cp ./sample/sample_event_sources.json ./config/event_sources_dev.json",
+    "setup-prod-sources": "cp ./sample/sample_event_sources.json ./config/event_sources_prod.json",
+    "test": "NODE_ENV=test ./node_modules/.bin/nyc --reporter=lcov --reporter=text ./node_modules/mocha/bin/mocha",
+    "coverage": "./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls",
+    "coverage-report": "./node_modules/.bin/nyc report --reporter=html && npm run open-report",
+    "open-report": "open -a 'Google Chrome' ./coverage/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NYPL/dw-circ-trans-transformer.git"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "node",
+    "kinesis",
+    "firehose"
+  ],
+  "author": "NYPL Data Warehouse Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NYPL/nypl-hold-request-consumer/issues"
+  },
+  "dependencies": {
+    "async": "2.5.0",
+    "avsc": "5.0.7",
+    "axios": "0.16.2",
+    "babel-runtime": "6.26.0",
+    "winston": "2.3.1"
+  },
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-plugin-istanbul": "4.1.5",
+    "babel-plugin-transform-runtime": "6.23.0",
+    "babel-preset-env": "1.6.0",
+    "babel-register": "6.26.0",
+    "rimraf": "2.6.2",
+    "node-lambda": "0.11.4",
+    "axios-mock-adapter": "1.9.0",
+    "chai": "4.1.2",
+    "chai-as-promised": "7.1.1",
+    "nyc": "11.2.1",
+    "coveralls": "2.13.1",
+    "mocha": "3.5.3",
+    "sinon": "3.2.1",
+    "sinon-chai": "2.13.0",
+    "standard": "^10.0.3"
+  },
+  "nyc": {
+    "require": [
+      "babel-register"
+    ],
+    "sourceMap": false,
+    "instrument": false,
+    "exclude": [
+      "**/*.spec.js",
+      "dist/*",
+      "src/helpers/Logger.js"
+    ]
+  },
+  "standard": {
+    "env": {
+      "mocha": true
+    },
+    "ignore": [
+      "/sample/",
+      "/build/",
+      "config"
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+.env
+.lambda
+node_modules
+config/*.env
+sample
+.idea
+dist
+.nyc*
