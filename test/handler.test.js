@@ -26,7 +26,7 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
 
       expect(errArg).to.be.instanceOf(Error)
       expect(errArg.message).to.equal('event is undefined')
-      expect(callbackSpy.callCount()).to.equal(1)
+      expect(callbackSpy).to.be.called
     })
 
     it('should throw an error if the event.records array is empty', () => {
@@ -43,7 +43,7 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
 
       expect(errArg).to.be.instanceOf(Error)
       expect(errArg.message).to.equal('event is undefined')
-      expect(callbackSpy.callCount()).to.equal(1)
+      expect(callbackSpy).to.be.called
     })
 
     it('should throw an error if the event.records.data array is empty', () => {
@@ -64,7 +64,7 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
 
       expect(errArg).to.be.instanceOf(Error)
       expect(errArg.message).to.equal('event.records array is empty')
-      expect(callbackSpy.callCount()).to.equal(1)
+      expect(callbackSpy).to.be.called
     })
   })
 
@@ -269,21 +269,16 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
       mock.reset()
     })
 
-    const callbackSpy = sinon.spy()
-
     it('should be a function', () => {
       expect(recordsHandlerFn).to.be.a('function')
     })
 
-    it('should return a proper getSchema() object', () => {
+    it('should reject an improper response from schema retrieval promise', () => {
       mock.onGet().reply(
         200,
-        {
-          data: {
-            schema: '{ "name": "circTrans" }'
-          }
-        }
+        {}
       )
+
       const result = recordsHandlerFn(
         event.records,
         {
@@ -292,9 +287,10 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
           schemaName: 'circTrans'
         },
         null,
-        callbackSpy
+        null
       )
-      return result.should.be.rejectedWith(Error, 'Schema not properly cached')
+
+      expect(result).to.eventually.equal(false)
     })
   })
 })
