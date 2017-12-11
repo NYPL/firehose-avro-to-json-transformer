@@ -6,9 +6,7 @@ import { schemaHandler, fetchSchema } from './src/helpers/SchemaHandler'
 
 exports.recordsHandler = async function (records, opts, context, callback) {
   try {
-    const [ schemaResponse ] = await Promise.all([
-      schemaHandler(cache.getSchema(), fetchSchema(opts.nyplDataApiBaseUrl, opts.schemaPath, opts.schemaName))
-    ])
+    const schemaResponse = await schemaHandler(cache.getSchema(), fetchSchema(opts.nyplDataApiBaseUrl, opts.schemaPath, opts.schemaName))
 
     if (schemaResponse.schemaType === 'fresh-schema') {
       cache.setSchema(schemaResponse.schema)

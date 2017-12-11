@@ -10,8 +10,8 @@ const fetchSchema = function (url, path, name) {
   }
 
   return axios.get(url + path + name)
-    .then((response) => {
-      if (response.data && response.data.data.schema) {
+    .then(response => {
+      if (response.data && typeof response.data.data !== 'undefined' && typeof response.data.data.schema !== 'undefined') {
         return Promise.resolve(JSON.parse(response.data.data.schema))
       }
 
@@ -26,8 +26,8 @@ const fetchSchema = function (url, path, name) {
       let errMsg = 'An error occurred requesting from the NYPL API'
 
       if (error.response) {
-        const statusCode = error.response.status
-        const statusText = error.response.statusText
+        let statusCode = error.response.status
+        let statusText = error.response.statusText
         if (statusCode) {
           errMsg += `; the service responded with status code: (${statusCode})`
         }
@@ -46,6 +46,9 @@ const fetchSchema = function (url, path, name) {
           )
         )
       }
+
+      logger.error(errMsg, { debugInfo: error })
+      return Promise.reject(error)
     })
 }
 
