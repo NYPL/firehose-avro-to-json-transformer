@@ -10,7 +10,7 @@
     "local-run": "npm run build && ./node_modules/.bin/node-lambda run -f ./config/local.env -j ./sample/sample_event.json --handler dist/index.handler",
     "deploy-dev": "npm run build && ./node_modules/.bin/node-lambda deploy -e development -f ./config/dev.env -S config/event_sources_dev.json --handler dist/index.handler",
     "deploy-qa": "npm run build && ./node_modules/.bin/node-lambda deploy -e qa -f ./config/qa.env -S config/event_sources_qa.json --handler dist/index.handler",
-    "deploy-prod": "npm run build && ./node_modules/.bin/node-lambda deploy -e production -f ./config/prod.env -S config/event_sources_prod.json --handler dist/index.handler",
+    "deploy-prod": "npm run build && ./node_modules/.bin/node-lambda deploy -e production -f ./config/prod.env -S config/event_sources_prod.json --handler dist/index.handler ",
     "package": "./node_modules/.bin/node-lambda package",
     "setup-node-lambda-env": "cp ./sample/.env.sample ./.env",
     "setup-local-env": "mkdir -p config && cp ./sample/deployment.env.sample ./config/local.env",
