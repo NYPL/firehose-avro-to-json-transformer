@@ -15,13 +15,12 @@ const processRecords = function (schema, records) {
         result: 'ProcessingFailed',
         data: record.data
       }
-    } else {
-      success++
-      return {
-        recordId: record.recordId,
-        result: 'Ok',
-        data: Buffer.from(JSON.stringify(jsonData)).toString('base64')
-      }
+    }
+    success++
+    return {
+      recordId: record.recordId,
+      result: 'Ok',
+      data: Buffer.from(JSON.stringify(jsonData)).toString('base64')
     }
   })
   logger.info(`Processing completed.  Successful transformations -  ${success}.  Failed transformations - ${failure}.`)
@@ -33,6 +32,7 @@ const decodeAvro = function (type, record) {
   try {
     return type.fromBuffer(decodedRecord)
   } catch (e) {
+    logger.error(`Decoding fatal error occurred: ${e.message}`, { debugInfo: e })
     return false
   }
 }
