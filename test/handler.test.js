@@ -7,6 +7,7 @@ import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import event from '../sample/sample_event.json'
 import AvroToJsonTransformer from '../index'
+import TransformerError from '../src/helpers/ErrorHelper'
 chai.should()
 chai.use(sinonChai)
 chai.use(chaiAsPromised)
@@ -259,27 +260,12 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
   })
 
   describe('Records Handler: exports.recordsHandler(records, opts, context, callback)', () => {
-    let mock
-
-    beforeEach(() => {
-      mock = new MockAdapter(axios)
-    })
-
-    afterEach(() => {
-      mock.reset()
-    })
-
     it('should be a function', () => {
       expect(recordsHandlerFn).to.be.a('function')
     })
 
-    it('should reject an improper response from schema retrieval promise', () => {
-      mock.onGet().reply(
-        200,
-        {}
-      )
-
-      const result = recordsHandlerFn(
+    it('should reject an improper response from schema retrieval promise', async () => {
+      await expect(recordsHandlerFn(
         event.records,
         {
           nyplDataApiBaseUrl: 'https://nyplurl.org',
@@ -288,9 +274,7 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
         },
         null,
         null
-      )
-
-      expect(result).to.eventually.equal(false)
+      )).to.be.rejected
     })
   })
 })

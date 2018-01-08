@@ -1,8 +1,8 @@
-import avro from 'avsc'
 import cache from './src/cache/CacheFactory'
 import logger from './src/helpers/Logger'
 import TransformerError from './src/helpers/ErrorHelper'
 import { schemaHandler, fetchSchema } from './src/helpers/SchemaHandler'
+import { processRecords } from './src/helpers/RecordsProcessor'
 
 exports.recordsHandler = async function (records, opts, context, callback) {
   try {
@@ -19,42 +19,6 @@ exports.recordsHandler = async function (records, opts, context, callback) {
   } catch (e) {
     logger.error('Schema not properly cached')
     return callback(e.message, null)
-  }
-}
-
-// Map records to decode Avro and return JSON as data to firehose.
-var processRecords = (schema, records) => {
-  let success = 0
-  let failure = 0
-  let type = avro.Type.forSchema(schema)
-  const output = records.map((record) => {
-    let jsonData = decodeAvro(type, record.data)
-    if (!jsonData) {
-      failure++
-      return {
-        recordId: record.recordId,
-        result: 'ProcessingFailed',
-        data: record.data
-      }
-    } else {
-      success++
-      return {
-        recordId: record.recordId,
-        result: 'Ok',
-        data: Buffer.from(JSON.stringify(jsonData)).toString('base64')
-      }
-    }
-  })
-  logger.info(`Processing completed.  Successful transformations -  ${success}.  Failed transformations - ${failure}.`)
-  return output
-}
-
-var decodeAvro = (type, record) => {
-  let decodedRecord = Buffer.from(record, 'base64')
-  try {
-    return type.fromBuffer(decodedRecord)
-  } catch (e) {
-    return false
   }
 }
 

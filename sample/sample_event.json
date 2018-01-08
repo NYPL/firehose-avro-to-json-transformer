@@ -1,0 +1,24 @@
+{
+  "records": [
+    {
+      "recordId": "789",
+      "data": "oAICoAICoAICoAICoAICLDIwMTctMTEtMTQgMTE6NDM6NDktMDUMc2llcnJhCmxvY2FsAgJvAhICLDIwMTctMTItMDUgMDQ6MDA6MDAtMDUCAAKUAgIAAgItAgpld2EwbgIAAgQxMAICLQICLQICAgACCmV3ICAgAgACCA==",
+      "approximateArrivalTimestamp": "2012-04-23T18:25:43.511Z"
+    },
+    {
+      "recordId": "123",
+      "data": "oAICoAICoAICoAICoAICLDIwMTctMTEtMTQgMTE6NDM6NTAtMDUMc2llcnJhCmxvY2FsAgJvAlgCLDIwMTctMTItMDUgMDQ6MDA6MDAtMDUCAAKSAwIAAgItAgpmd2owYQIAAgQ2MAICLQICcgIEAgACCmZ3ICAgAgACCg==",
+      "approximateArrivalTimestamp": "2012-04-23T18:25:43.511Z"
+    },
+    {
+      "recordId": "456",
+      "data": "lgsCSDlhNmZiYmU5LWJkMTAtNDA2Ny05ZmVhLWEwODM4ZGU2YzUyNwIGNzE1Ah4yMzQ1Njc4OTA5ODc2NTQCHDMyMTAxMDk2MTE1MjE1AgZQVUwAAAIyMjAxNy0xMC0wNFQxNjo0MToyNS0wNDowMAA=",
+      "approximateArrivalTimestamp": "2012-04-23T18:25:43.511Z"
+    }
+  ],
+  "region": "us-east-1",
+  "deliveryStreamArn": "arn:aws:kinesis:EXAMPLE",
+  "invocationId": "invocationIdExample"
+}
+
+
