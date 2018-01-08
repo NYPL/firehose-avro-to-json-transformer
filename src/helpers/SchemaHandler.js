@@ -23,7 +23,7 @@ const fetchSchema = function (url, path, name) {
       )
     })
     .catch(error => {
-      let errMsg = 'An error occurred requesting from the NYPL API'
+      let errMsg = 'An error occurred requesting the schema from the NYPL API'
 
       if (error.response) {
         let statusCode = error.response.status
@@ -46,7 +46,6 @@ const fetchSchema = function (url, path, name) {
           )
         )
       }
-
       logger.error(errMsg, { debugInfo: error })
       return Promise.reject(error)
     })
