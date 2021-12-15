@@ -1,6 +1,7 @@
-/* eslint-disable semi */
 import chai from 'chai'
-import TransformerError from '../../src/helpers/ErrorHelper'
+
+import TransformerError from '../../src/helpers/ErrorHelper.js'
+
 chai.should()
 const expect = chai.expect
 

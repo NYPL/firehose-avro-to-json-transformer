@@ -1,4 +1,3 @@
-/* eslint-disable semi */
 export default class TransformerError extends Error {
   constructor (message, opts = {}) {
     if (!message || typeof message !== 'string' || message.trim() === '') {
@@ -29,4 +28,4 @@ export default class TransformerError extends Error {
       this.debugInfo = opts.debugInfo
     }
   }
-};
+}

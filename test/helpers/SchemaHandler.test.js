@@ -1,10 +1,12 @@
 /* eslint-disable semi */
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { schemaHandler, fetchSchema } from '../../src/helpers/SchemaHandler'
-import TransformerError from '../../src/helpers/ErrorHelper'
 import chai from 'chai'
 import chaiAsPromised from 'chai-as-promised'
+
+import { schemaHandler, fetchSchema } from '../../src/helpers/SchemaHandler.js'
+import TransformerError from '../../src/helpers/ErrorHelper.js'
+
 chai.should()
 chai.use(chaiAsPromised)
 
@@ -21,7 +23,7 @@ describe('AvroToJsonTransformer Lambda: SchemaHandler', () => {
 
   describe('schemaHandler(cachedSchema, fetchSchemaFn)', () => {
     it('should not fetch a new schema if cachedSchema contains one', () => {
-      let result = schemaHandler('cachedSchemaJson', 'fetchSchemaFn')
+      const result = schemaHandler('cachedSchemaJson', 'fetchSchemaFn')
       return result.should.be.fulfilled.and.should.eventually.deep.equal({
         schemaType: 'cached-schema',
         schema: 'cachedSchemaJson'
@@ -38,7 +40,7 @@ describe('AvroToJsonTransformer Lambda: SchemaHandler', () => {
         }
       )
 
-      let result = schemaHandler(null, fetchSchema('http://nypltest.org', 'schema-path', 'schema'))
+      const result = schemaHandler(null, fetchSchema('http://nypltest.org', 'schema-path', 'schema'))
 
       return result.should.be.fulfilled.and.should.eventually.deep.equal({
         schemaType: 'fresh-schema',
@@ -49,7 +51,7 @@ describe('AvroToJsonTransformer Lambda: SchemaHandler', () => {
     it('should reject the promise on 400 responses from the API', () => {
       mock.onGet().reply(404)
 
-      let result = schemaHandler(null, fetchSchema('http://nypltest.org', 'schema-path', 'schema'))
+      const result = schemaHandler(null, fetchSchema('http://nypltest.org', 'schema-path', 'schema'))
 
       return result.should.be.rejected.and.should.eventually.have.property('statusCode', 404)
     })
@@ -57,7 +59,7 @@ describe('AvroToJsonTransformer Lambda: SchemaHandler', () => {
     it('should reject the promise on 500 responses from the API', () => {
       mock.onGet().reply(503)
 
-      let result = schemaHandler(null, fetchSchema('http://nypltest.org', 'schema-path', 'schema'))
+      const result = schemaHandler(null, fetchSchema('http://nypltest.org', 'schema-path', 'schema'))
 
       return result.should.be.rejected.and.should.eventually.have.property('statusCode', 503)
     })
@@ -65,17 +67,17 @@ describe('AvroToJsonTransformer Lambda: SchemaHandler', () => {
 
   describe('fetchSchema(url, path, name)', () => {
     it('should reject the promise if the url parameter is undefined', () => {
-      let result = fetchSchema(null, 'path', 'name')
+      const result = fetchSchema(null, 'path', 'name')
       return result.should.be.rejectedWith(TransformerError, 'missing one or more URL parameters')
     })
 
     it('should reject the promise if the path parameter is undefined', () => {
-      let result = fetchSchema('url', null, 'name')
+      const result = fetchSchema('url', null, 'name')
       return result.should.be.rejectedWith(TransformerError, 'missing one or more URL parameters')
     })
 
     it('should reject the promise if the name parameter is undefined', () => {
-      let result = fetchSchema('url', 'path', null)
+      const result = fetchSchema('url', 'path', null)
       return result.should.be.rejectedWith(TransformerError, 'missing one or more URL parameters')
     })
 
@@ -85,7 +87,7 @@ describe('AvroToJsonTransformer Lambda: SchemaHandler', () => {
         {}
       )
 
-      let result = fetchSchema('http://nypltest.org', 'schema-path', 'schema')
+      const result = fetchSchema('http://nypltest.org', 'schema-path', 'schema')
       return result.should.be.rejectedWith(TransformerError, 'Schema object could not be retrieved')
     })
 
@@ -97,7 +99,7 @@ describe('AvroToJsonTransformer Lambda: SchemaHandler', () => {
         }
       )
 
-      let result = fetchSchema('http://nypltest.org', 'schema-path', 'schema')
+      const result = fetchSchema('http://nypltest.org', 'schema-path', 'schema')
       return result.should.be.rejectedWith(TransformerError, 'Schema object could not be retrieved')
     })
   })

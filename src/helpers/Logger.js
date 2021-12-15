@@ -1,7 +1,6 @@
 /* eslint-disable semi */
-const winston = require('winston')
-// Supress error handling
-winston.emitErrs = true
+import winston from 'winston'
+
 // Set default NYPL agreed upon log levels
 const levels = {
   emergency: 0,
@@ -78,4 +77,4 @@ const logger = new (winston.Logger)({
   exitOnError: false
 })
 
-module.exports = logger
+export default logger

@@ -1,7 +1,7 @@
-.env
-.lambda
 node_modules
-config/*.env
-.idea
-dist
-.nyc*
+
+coverage
+
+.terraform.lock.hcl
+.terraform
+dist.zip

@@ -1,5 +1,5 @@
 {
-    "name": "circ_trans_record",
+    "name": "CircTransRecord",
     "type": "record",
     "fields": [
       {

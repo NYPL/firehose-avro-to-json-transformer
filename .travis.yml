@@ -1,5 +1,34 @@
 language: node_js
-cache:
-  directories:
-    - "node_modules"
-after_success: npm run coverage
+install:
+- npm i
+before_install:
+- wget https://releases.hashicorp.com/terraform/"$TF_VERSION"/terraform_"$TF_VERSION"_linux_amd64.zip
+- unzip terraform_"$TF_VERSION"_linux_amd64.zip
+- sudo mv terraform /usr/local/bin/
+- rm terraform_"$TF_VERSION"_linux_amd64.zip
+jobs:
+  include:
+  - stage: test
+    script: npm test
+  - stage: deploy qa
+    if: type IN (push) and branch = qa
+    env:
+    - AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID_QA
+    - AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY_QA
+    script:
+    - terraform -chdir=provisioning/qa init -input=false
+    - echo "Deploying to qa"
+    - terraform -chdir=provisioning/qa apply -auto-approve -input=false
+  - stage: deploy production
+    if: type IN (push) and branch = main
+    env:
+    - AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID_PRODUCTION
+    - AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY_PRODUCTION
+    script:
+    - terraform -chdir=provisioning/production init -input=false
+    - echo "Deploying to production"
+    - terraform -chdir=provisioning/production apply -auto-approve -input=false
+env:
+  global:
+  - TF_VERSION=1.0.11
+  - secure: esNcR5939Fd56jFp32PEJ53fKj9Vt0Ehfaru5/qnQrUTTt2Da2ObJ8dXCRa80OPXWURYU4Y8KBOlRvF+Tu1zbE6wrcxGFV9roy+ghqRVRQ/32ZJ28lMwagGu713Cw3LjZlY1JqPsoX7SlXzo1QS9uXlbXiH7kw+VhKfe1/PfiBKCIrkfn6SAs6IM8XdtYw7Q+EsphkALrhkZntAyBbCPkUSLfFNy6Urv2wdCAwFZV3Yemz93g1+4C7j5qtWCTEN0aZen17oLY95IePYlusmpjLiZ67Df8LuwW7WDrA5JppH8zSTM6Hc7vaq8zxVwSCmhYk8Jpbh3oECjHCEtmUvGxMtbps833MpummwWEb5CdcK4ucRSISL/ES+N27dqCafvMOSU+MsY0EfsXeQ9aK02NdjjqEpYCLQ7Oy3kIhCvfjJdHE+oRAv+FNM/cabRgHtUyx0r84q6Ut2xQCxApcbLUTUeGNIFCP2q4gbP66E0Rd8zArxri5/X8/uvTh3atRhyXeqUgJfueHtQw5E3GkIQhQiQcw1gxX4kY4pnqc8rOxeCfAx+9qMjhJAMbOyHkyE8AIQwtJTuq01jY80/XAokBOYsIKR7xqs91Ie/kiAXwABwrbrKDWoiyvpsbofXkzjWvZNoXDzs0/AhvTcVCXONbniIh4AxiOEaK7oUq/OoP7g=
