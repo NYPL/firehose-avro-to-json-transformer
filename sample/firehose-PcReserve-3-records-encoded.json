@@ -1,6 +1,6 @@
 {
   "invocationId": "invocationIdExample",
-  "deliverySteamArn": "arn:aws:kinesis:PcReserve-production",
+  "deliveryStreamArn": "arn:aws:kinesis:PcReserve-production",
   "region": "us-east-1",
   "records": [
     {
