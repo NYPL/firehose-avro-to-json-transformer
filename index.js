@@ -66,7 +66,8 @@ const configHandler = (records, opts, context, callback) => {
  *    "PcReserve"
  */
 const schemaNameFromEvent = (event) => {
-  return event.deliverySteamArn.split(':')
+  console.log('Incoming event: ', JSON.stringify(event))
+  return event.deliveryStreamArn.split(':')
     .pop()
     .replace(/-[a-z]+$/, '')
     // Against convention, the "CircTransAnon" stream contains "CircTrans"
