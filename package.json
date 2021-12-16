@@ -5,9 +5,6 @@
   "main": "index.js",
   "scripts": {
     "lint": "./node_modules/.bin/standard",
-    "local-run": "npm run build && ./node_modules/.bin/node-lambda run -f ./config/local.env -j ./sample/sample_event.json --handler dist/index.handler",
-    "deploy-qa": "npm run build && ./node_modules/.bin/node-lambda deploy -e qa -f ./config/qa.env -S config/event_sources_qa.json --handler dist/index.handler",
-    "deploy-prod": "npm run build && ./node_modules/.bin/node-lambda deploy -e production -f ./config/production.env -S config/event_sources_prod.json --handler dist/index.handler -P nypl-digital-dev",
     "test": "./node_modules/.bin/standard && NODE_ENV=test ./node_modules/.bin/c8 --reporter=lcov --reporter=text ./node_modules/.bin/mocha --recursive",
     "coverage-report": "./node_modules/.bin/c8 report --reporter=html"
   },
