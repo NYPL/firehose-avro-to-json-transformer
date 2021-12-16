@@ -18,7 +18,7 @@ const recordsHandler = async function (records, opts, context, callback) {
     }
   } catch (e) {
     logger.error('Schema not properly cached')
-    return callback(e.message, null)
+    return callback(e, null)
   }
 }
 
@@ -52,7 +52,7 @@ const configHandler = (records, opts, context, callback) => {
     return recordsHandler(records, opts, context, callback)
   } catch (e) {
     logger.error(`transformer-configuration-error: ${e.message}`)
-    return callback(e.message, null)
+    return callback(e, null)
   }
 }
 

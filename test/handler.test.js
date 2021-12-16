@@ -23,7 +23,7 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
 
       setEnv({
         NYPL_DATA_API_BASE_URL: 'https://example.com',
-        SCHEMA_PATH: '/schemas'
+        SCHEMA_PATH: '/schemas/'
       })
     })
 
@@ -150,6 +150,36 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
         })
       })
     })
+
+    it('should callback with error if invalid schema name is identified', () => {
+      mock.onGet().reply(404, '')
+
+      const callbackSpy = sinon.spy()
+
+      const eventWithNonExistentSchema = Object.assign(
+        {},
+        pcReserveEvent,
+        { deliverySteamArn: 'arn:aws:kinesis:NonExistentSchemaName-production' }
+      )
+
+      AvroToJsonTransformer.handler(
+        eventWithNonExistentSchema,
+        null,
+        callbackSpy
+      )
+
+      // A success callback invocation is technically async, so let things resolve:
+      setImmediate(() => {
+        expect(callbackSpy).to.be.called
+
+        const errArg = callbackSpy.firstCall.args[0]
+        expect(errArg).to.be.instanceOf(Error)
+        expect(errArg.message).to.equal('An error occurred requesting the schema from the NYPL API (https://example.com/schemas/NonExistentSchemaName); the service responded with status code: (404)')
+        expect(callbackSpy).to.be.called
+
+        expect(callbackSpy.firstCall.args[1]).to.be.null
+      })
+    })
   })
 
   describe('Config Handler: exports.configHandler()', () => {
@@ -159,8 +189,8 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
 
       const errArg = callbackSpy.firstCall.args[0]
 
-      expect(callbackSpy.callCount).to.equal(1)
-      expect(errArg).to.equal('missing/undefined opts object configuration parameter')
+      expect(errArg).to.be.instanceOf(Error)
+      expect(errArg.message).to.equal('missing/undefined opts object configuration parameter')
     })
 
     it('should respond with a TransformerError if parameter options are empty', () => {
@@ -170,7 +200,8 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
       const errArg = callbackSpy.firstCall.args[0]
 
       expect(callbackSpy.callCount).to.equal(1)
-      expect(errArg).to.equal('missing/undefined opts object configuration parameter')
+      expect(errArg).to.be.instanceOf(Error)
+      expect(errArg.message).to.equal('missing/undefined opts object configuration parameter')
     })
 
     it('should respond with a TransformerError if nyplDataApiBaseUrl is missing', () => {
@@ -188,7 +219,8 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
       const errArg = callbackSpy.firstCall.args[0]
 
       expect(callbackSpy.callCount).to.equal(1)
-      expect(errArg).to.equal('missing/undefined nyplDataApiBaseUrl config parameter')
+      expect(errArg).to.be.instanceOf(Error)
+      expect(errArg.message).to.equal('missing/undefined nyplDataApiBaseUrl config parameter')
     })
 
     it('should respond with a TransformerError if nyplDataApiBaseUrl is not a string', () => {
@@ -207,7 +239,8 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
       const errArg = callbackSpy.firstCall.args[0]
 
       expect(callbackSpy.callCount).to.equal(1)
-      expect(errArg).to.equal('missing/undefined nyplDataApiBaseUrl config parameter')
+      expect(errArg).to.be.instanceOf(Error)
+      expect(errArg.message).to.equal('missing/undefined nyplDataApiBaseUrl config parameter')
     })
 
     it('should respond with a TransformerError if nyplDataApiBaseUrl is empty', () => {
@@ -226,7 +259,8 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
       const errArg = callbackSpy.firstCall.args[0]
 
       expect(callbackSpy.callCount).to.equal(1)
-      expect(errArg).to.equal('missing/undefined nyplDataApiBaseUrl config parameter')
+      expect(errArg).to.be.instanceOf(Error)
+      expect(errArg.message).to.equal('missing/undefined nyplDataApiBaseUrl config parameter')
     })
 
     it('should respond with a TransformerError if schemaPath is missing', () => {
@@ -244,7 +278,8 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
       const errArg = callbackSpy.firstCall.args[0]
 
       expect(callbackSpy.callCount).to.equal(1)
-      expect(errArg).to.equal('missing/undefined schemaPath config parameter')
+      expect(errArg).to.be.instanceOf(Error)
+      expect(errArg.message).to.equal('missing/undefined schemaPath config parameter')
     })
 
     it('should respond with a TransformerError if schemaPath is not a string', () => {
@@ -263,7 +298,8 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
       const errArg = callbackSpy.firstCall.args[0]
 
       expect(callbackSpy.callCount).to.equal(1)
-      expect(errArg).to.equal('missing/undefined schemaPath config parameter')
+      expect(errArg).to.be.instanceOf(Error)
+      expect(errArg.message).to.equal('missing/undefined schemaPath config parameter')
     })
 
     it('should respond with a TransformerError if schemaPath is empty', () => {
@@ -282,7 +318,8 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
       const errArg = callbackSpy.firstCall.args[0]
 
       expect(callbackSpy.callCount).to.equal(1)
-      expect(errArg).to.equal('missing/undefined schemaPath config parameter')
+      expect(errArg).to.be.instanceOf(Error)
+      expect(errArg.message).to.equal('missing/undefined schemaPath config parameter')
     })
 
     it('should respond with a TransformerError if schemaName is missing', () => {
@@ -300,7 +337,8 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
       const errArg = callbackSpy.firstCall.args[0]
 
       expect(callbackSpy.callCount).to.equal(1)
-      expect(errArg).to.equal('missing/undefined schemaName config parameter')
+      expect(errArg).to.be.instanceOf(Error)
+      expect(errArg.message).to.equal('missing/undefined schemaName config parameter')
     })
 
     it('should respond with a TransformerError if schemaName is not a string', () => {
@@ -319,7 +357,8 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
       const errArg = callbackSpy.firstCall.args[0]
 
       expect(callbackSpy.callCount).to.equal(1)
-      expect(errArg).to.equal('missing/undefined schemaName config parameter')
+      expect(errArg).to.be.instanceOf(Error)
+      expect(errArg.message).to.equal('missing/undefined schemaName config parameter')
     })
 
     it('should respond with a TransformerError if schemaName is empty', () => {
@@ -338,7 +377,8 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
       const errArg = callbackSpy.firstCall.args[0]
 
       expect(callbackSpy.callCount).to.equal(1)
-      expect(errArg).to.equal('missing/undefined schemaName config parameter')
+      expect(errArg).to.be.instanceOf(Error)
+      expect(errArg.message).to.equal('missing/undefined schemaName config parameter')
     })
   })
 
