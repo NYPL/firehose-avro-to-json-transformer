@@ -1,8 +1,4 @@
-/* eslint-disable semi */
-import chai from 'chai'
-import TransformerError from '../../src/helpers/ErrorHelper'
-chai.should()
-const expect = chai.expect
+const TransformerError = require('../../src/helpers/ErrorHelper.js')
 
 describe('AvroToJsonTransformer Lambda: TransformerError', () => {
   it('should throw an error when message variable is missing', () => {

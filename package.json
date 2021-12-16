@@ -4,24 +4,9 @@
   "description": "Converts Kinesis Firehose records in Avro to JSON for ingest by Amazon Redshift.",
   "main": "index.js",
   "scripts": {
-    "clean": "./node_modules/.bin/rimraf dist",
-    "build": "npm run clean && babel index.js --out-dir dist && babel src --out-dir dist/src",
     "lint": "./node_modules/.bin/standard",
-    "local-run": "npm run build && ./node_modules/.bin/node-lambda run -f ./config/local.env -j ./sample/sample_event.json --handler dist/index.handler",
-    "deploy-dev": "npm run build && ./node_modules/.bin/node-lambda deploy -e development -f ./config/dev.env -S config/event_sources_dev.json --handler dist/index.handler -P nypl-sandbox",
-    "deploy-qa": "npm run build && ./node_modules/.bin/node-lambda deploy -e qa -f ./config/qa.env -S config/event_sources_qa.json --handler dist/index.handler",
-    "deploy-prod": "npm run build && ./node_modules/.bin/node-lambda deploy -e production -f ./config/prod.env -S config/event_sources_prod.json --handler dist/index.handler -P nypl-digital-dev",
-    "package": "./node_modules/.bin/node-lambda package",
-    "setup-node-lambda-env": "cp ./sample/.env.sample ./.env",
-    "setup-local-env": "mkdir -p config && cp ./sample/deployment.env.sample ./config/local.env",
-    "setup-dev-env": "mkdir -p config && cp ./sample/deployment.env.sample ./config/dev.env",
-    "setup-prod-env": "mkdir -p config && cp ./sample/deployment.env.sample ./config/prod.env",
-    "setup-dev-sources": "cp ./sample/sample_event_sources.json ./config/event_sources_dev.json",
-    "setup-prod-sources": "cp ./sample/sample_event_sources.json ./config/event_sources_prod.json",
-    "test": "NODE_ENV=test ./node_modules/.bin/nyc --reporter=lcov --reporter=text ./node_modules/mocha/bin/mocha",
-    "coverage": "./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls",
-    "coverage-report": "./node_modules/.bin/nyc report --reporter=html && npm run open-report",
-    "open-report": "open -a 'Google Chrome' ./coverage/index.html"
+    "test": "./node_modules/.bin/standard && NODE_ENV=test ./node_modules/.bin/c8 --reporter=lcov --reporter=text ./node_modules/.bin/mocha --recursive",
+    "coverage-report": "./node_modules/.bin/c8 report --reporter=html"
   },
   "repository": {
     "type": "git",
@@ -40,46 +25,28 @@
     "url": "https://github.com/NYPL/firehose-avro-to-json-transformer/issues"
   },
   "dependencies": {
-    "async": "2.5.0",
     "avsc": "5.0.7",
-    "axios": "0.16.2",
-    "babel-runtime": "6.26.0",
-    "winston": "2.3.1"
+    "axios": "^0.24.0",
+    "winston": "2.4.4"
   },
   "devDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-plugin-istanbul": "5.1.0",
-    "babel-plugin-transform-runtime": "6.23.0",
-    "babel-preset-env": "1.6.0",
-    "babel-register": "6.26.0",
-    "rimraf": "2.6.2",
-    "node-lambda": "0.12.0",
     "axios-mock-adapter": "1.9.0",
-    "chai": "4.1.2",
+    "c8": "^7.10.0",
+    "chai": "4.3.4",
     "chai-as-promised": "7.1.1",
-    "nyc": "11.2.1",
-    "coveralls": "3.0.2",
-    "mocha": "5.2.0",
+    "coveralls": "^3.1.1",
+    "mocha": "9.1.3",
     "sinon": "3.2.1",
     "sinon-chai": "2.13.0",
-    "standard": "^10.0.3"
-  },
-  "nyc": {
-    "require": [
-      "babel-register"
-    ],
-    "sourceMap": false,
-    "instrument": false,
-    "exclude": [
-      "**/*.spec.js",
-      "dist/*",
-      "src/helpers/Logger.js"
-    ]
+    "standard": "^16.0.4"
   },
   "standard": {
     "env": {
       "mocha": true
     },
+    "globals": [
+      "expect"
+    ],
     "ignore": [
       "/sample/",
       "/build/",

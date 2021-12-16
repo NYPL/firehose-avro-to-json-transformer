@@ -1,7 +1,5 @@
-/* eslint-disable semi */
 const winston = require('winston')
-// Supress error handling
-winston.emitErrs = true
+
 // Set default NYPL agreed upon log levels
 const levels = {
   emergency: 0,

@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'firehose-avro-to-json-transformer'
+
+Resources:
+  AvroToJsonTransformer:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs14.x
+      Timeout: 10
+      Environment:
+        Variables:
+          NYPL_DATA_API_BASE_URL: https://qa-platform.nypl.org/api/v0.1/
+          SCHEMA_NAME: CircTrans
+          SCHEMA_PATH: current-schemas/
+          LOG_LEVEL: debug

@@ -1,0 +1,47 @@
+[
+  {
+    "patron_id": "abc1234567891011121314",
+    "patron_retrieval_status": "found",
+    "ptype_code": 123,
+    "patron_home_library_code": "ma",
+    "pcode3": 987,
+    "postal_code": "55555",
+    "geoid": null,
+    "key": "abc123",
+    "minutes_used": 12,
+    "transaction_et": "2021-12-13T12:15:00",
+    "branch": "branch abc",
+    "area": "area 1",
+    "staff_override": "StaffOverride"
+  },
+  {
+    "patron_id": "abc123456789101112131415",
+    "patron_retrieval_status": "missing",
+    "ptype_code": null,
+    "patron_home_library_code": null,
+    "pcode3": null,
+    "postal_code": null,
+    "geoid": null,
+    "key": "abc789",
+    "minutes_used": 12,
+    "transaction_et": "2021-12-13T15:15:00",
+    "branch": "branch def",
+    "area": "area 2",
+    "staff_override": null
+  },
+  {
+    "patron_id": "abc12345678910111213141516",
+    "patron_retrieval_status": "guest pass",
+    "ptype_code": null,
+    "patron_home_library_code": null,
+    "pcode3": null,
+    "postal_code": null,
+    "geoid": null,
+    "key": "abc456",
+    "minutes_used": 15,
+    "transaction_et": "2021-12-13T15:15:00",
+    "branch": "branch ghi",
+    "area": "area 3",
+    "staff_override": null
+  }
+]

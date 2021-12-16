@@ -1,6 +1,7 @@
-import axios from 'axios'
-import logger from './Logger'
-import TransformerError from './ErrorHelper'
+const axios = require('axios')
+
+const logger = require('./Logger.js')
+const TransformerError = require('./ErrorHelper.js')
 
 const fetchSchema = function (url, path, name) {
   if (!url || !path || !name) {
@@ -24,10 +25,11 @@ const fetchSchema = function (url, path, name) {
     })
     .catch(error => {
       let errMsg = 'An error occurred requesting the schema from the NYPL API'
+      errMsg += ` (${url}${path}${name})`
 
       if (error.response) {
-        let statusCode = error.response.status
-        let statusText = error.response.statusText
+        const statusCode = error.response.status
+        const statusText = error.response.statusText
         if (statusCode) {
           errMsg += `; the service responded with status code: (${statusCode})`
         }
@@ -59,18 +61,14 @@ const schemaHandler = async function (cachedSchema, getSchemaFn) {
     }
   }
 
-  try {
-    const freshSchema = await getSchemaFn
-    return {
-      schemaType: 'fresh-schema',
-      schema: freshSchema
-    }
-  } catch (e) {
-    throw e
+  const freshSchema = await getSchemaFn
+  return {
+    schemaType: 'fresh-schema',
+    schema: freshSchema
   }
 }
 
-export {
+module.exports = {
   fetchSchema,
   schemaHandler
 }

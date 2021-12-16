@@ -1,8 +1,6 @@
-/* eslint-disable semi */
-import chai from 'chai'
-import Cache from '../../src/cache/CacheFactory'
-chai.should()
-const expect = chai.expect
+/* eslint-disable no-unused-expressions */
+
+const Cache = require('../../src/cache/CacheFactory.js')
 
 describe('AvroToJsonTransformer Lambda: CacheFactory', () => {
   it('should initialize the nodeEnv variable', () => {
@@ -16,12 +14,18 @@ describe('AvroToJsonTransformer Lambda: CacheFactory', () => {
   })
 
   it('should initialize schema variable as null', () => {
-    expect(Cache.schema).to.equal(null)
+    expect(Cache.schemas).to.be.a('object')
+    expect(Cache.schemas).to.be.empty
   })
 
   it('should return the set value for schema variable', () => {
     const testSchema = '{ "name": "circ_trans", "type": "record" }'
-    Cache.setSchema(testSchema)
-    expect(Cache.getSchema()).to.equal(testSchema)
+    Cache.setSchema('circ_trans', testSchema)
+    expect(Cache.getSchema('circ_trans')).to.equal(testSchema)
+
+    // Confirm it can handle another schema:
+    const testSchema2 = '{ "name": "circ_trans2", "type": "record" }'
+    Cache.setSchema('circ_trans2', testSchema2)
+    expect(Cache.getSchema('circ_trans2')).to.equal(testSchema2)
   })
 })

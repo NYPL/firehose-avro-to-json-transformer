@@ -1,12 +1,11 @@
-/* eslint-disable semi */
 const cache = {
-  schema: null,
+  schemas: {},
   nodeEnv: process.env.NODE_ENV,
-  getSchema () {
-    return this.schema
+  getSchema (name) {
+    return this.schemas[name]
   },
-  setSchema (schema) {
-    this.schema = schema
+  setSchema (name, schema) {
+    this.schemas[name] = schema
   },
   getNodeEnv () {
     return this.nodeEnv
@@ -16,4 +15,4 @@ const cache = {
   }
 }
 
-export default cache
+module.exports = cache
