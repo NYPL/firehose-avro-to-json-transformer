@@ -1,6 +1,6 @@
-import avro from 'avsc'
+const avro = require('avsc')
 
-import logger from './Logger.js'
+const logger = require('./Logger.js')
 
 // Map records to decode Avro and return JSON as data to firehose.
 const processRecords = function (schema, records) {
@@ -38,7 +38,7 @@ const decodeAvro = function (type, record) {
   }
 }
 
-export {
+module.exports = {
   processRecords,
   decodeAvro
 }

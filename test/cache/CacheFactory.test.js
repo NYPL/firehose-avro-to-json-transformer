@@ -1,10 +1,6 @@
 /* eslint-disable no-unused-expressions */
 
-import chai from 'chai'
-
-import Cache from '../../src/cache/CacheFactory.js'
-chai.should()
-const expect = chai.expect
+const Cache = require('../../src/cache/CacheFactory.js')
 
 describe('AvroToJsonTransformer Lambda: CacheFactory', () => {
   it('should initialize the nodeEnv variable', () => {

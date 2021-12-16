@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Converts Kinesis Firehose records in Avro to JSON for ingest by Amazon Redshift.",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "lint": "./node_modules/.bin/standard",
     "local-run": "npm run build && ./node_modules/.bin/node-lambda run -f ./config/local.env -j ./sample/sample_event.json --handler dist/index.handler",
@@ -52,6 +51,7 @@
     "env": {
       "mocha": true
     },
+    "globals": [ "expect" ],
     "ignore": [
       "/sample/",
       "/build/",

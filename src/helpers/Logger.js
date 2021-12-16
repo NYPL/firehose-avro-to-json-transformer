@@ -1,5 +1,4 @@
-/* eslint-disable semi */
-import winston from 'winston'
+const winston = require('winston')
 
 // Set default NYPL agreed upon log levels
 const levels = {
@@ -77,4 +76,4 @@ const logger = new (winston.Logger)({
   exitOnError: false
 })
 
-export default logger
+module.exports = logger

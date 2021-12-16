@@ -1,21 +1,13 @@
 /* eslint-env mocha */
 /* eslint-disable no-unused-expressions */
 
-import chai from 'chai'
-import chaiAsPromised from 'chai-as-promised'
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
-import sinon from 'sinon'
-import sinonChai from 'sinon-chai'
-import fs from 'fs'
+const fs = require('fs')
+const axios = require('axios')
+const sinon = require('sinon')
+const MockAdapter = require('axios-mock-adapter')
 
-import AvroToJsonTransformer from '../index.js'
-import { setEnv, restoreEnv, decodeBase64Json } from './test-helper.js'
-
-chai.should()
-chai.use(sinonChai)
-chai.use(chaiAsPromised)
-const expect = chai.expect
+const AvroToJsonTransformer = require('../index.js')
+const { setEnv, restoreEnv, decodeBase64Json } = require('./test-helper.js')
 
 const circTransEvent = JSON.parse(fs.readFileSync('./sample/firehose-CircTrans-3-records-encoded.json', 'utf8'))
 const pcReserveEvent = JSON.parse(fs.readFileSync('./sample/firehose-PcReserve-3-records-encoded.json', 'utf8'))

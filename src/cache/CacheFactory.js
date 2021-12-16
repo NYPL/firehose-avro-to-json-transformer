@@ -1,4 +1,3 @@
-/* eslint-disable semi */
 const cache = {
   schemas: {},
   nodeEnv: process.env.NODE_ENV,
@@ -16,4 +15,4 @@ const cache = {
   }
 }
 
-export default cache
+module.exports = cache

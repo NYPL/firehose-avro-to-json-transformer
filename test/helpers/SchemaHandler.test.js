@@ -1,14 +1,8 @@
-/* eslint-disable semi */
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
-import chai from 'chai'
-import chaiAsPromised from 'chai-as-promised'
+const axios = require('axios')
+const MockAdapter = require('axios-mock-adapter')
 
-import { schemaHandler, fetchSchema } from '../../src/helpers/SchemaHandler.js'
-import TransformerError from '../../src/helpers/ErrorHelper.js'
-
-chai.should()
-chai.use(chaiAsPromised)
+const { schemaHandler, fetchSchema } = require('../../src/helpers/SchemaHandler.js')
+const TransformerError = require('../../src/helpers/ErrorHelper.js')
 
 describe('AvroToJsonTransformer Lambda: SchemaHandler', () => {
   let mock

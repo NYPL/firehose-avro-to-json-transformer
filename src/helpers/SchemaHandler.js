@@ -1,7 +1,7 @@
-import axios from 'axios'
+const axios = require('axios')
 
-import logger from './Logger.js'
-import TransformerError from './ErrorHelper.js'
+const logger = require('./Logger.js')
+const TransformerError = require('./ErrorHelper.js')
 
 const fetchSchema = function (url, path, name) {
   if (!url || !path || !name) {
@@ -67,7 +67,7 @@ const schemaHandler = async function (cachedSchema, getSchemaFn) {
   }
 }
 
-export {
+module.exports = {
   fetchSchema,
   schemaHandler
 }

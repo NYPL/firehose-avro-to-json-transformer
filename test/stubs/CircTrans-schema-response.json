@@ -1,0 +1,153 @@
+{
+   "data" : {
+      "offsetEnd" : 0,
+      "id" : 3,
+      "offsetBegin" : 0,
+      "schemaObject" : {
+         "fields" : [
+            {
+               "type" : [
+                  "string"
+               ],
+               "doc" : "uniqure processing row uuid, auto-generated and random",
+               "name" : "uuid"
+            },
+            {
+               "name" : "transaction_checksum",
+               "type" : [
+                  "string"
+               ],
+               "doc" : "Obfuscated unique transaction checksum of concatenated transaction information"
+            },
+            {
+               "name" : "patron_id",
+               "type" : [
+                  "string"
+               ],
+               "doc" : "Obfuscated patron id"
+            },
+            {
+               "type" : [
+                  "null",
+                  "int"
+               ],
+               "doc" : "Patron ptype code",
+               "name" : "ptype_code"
+            },
+            {
+               "name" : "patron_home_library_code",
+               "type" : [
+                  "null",
+                  "string"
+               ],
+               "doc" : "A five-character location code, right-padded with spaces, from the associated patron record."
+            },
+            {
+               "doc" : "Patron 'home region' code",
+               "type" : [
+                  "null",
+                  "int"
+               ],
+               "name" : "pcode3"
+            },
+            {
+               "doc" : "Patron postal code",
+               "type" : [
+                  "null",
+                  "string"
+               ],
+               "name" : "postal_code"
+            },
+            {
+               "doc" : "Patron census tract",
+               "type" : [
+                  "null",
+                  "string"
+               ],
+               "name" : "geoid"
+            },
+            {
+               "type" : [
+                  "null",
+                  "int"
+               ],
+               "doc" : "Item type code",
+               "name" : "itype_code_num"
+            },
+            {
+               "name" : "item_location_code",
+               "doc" : "A five-character location code, right-padded with spaces, from the associated item record.",
+               "type" : [
+                  "null",
+                  "string"
+               ]
+            },
+            {
+               "name" : "icode1",
+               "doc" : "Item code 1",
+               "type" : [
+                  "null",
+                  "int"
+               ]
+            },
+            {
+               "name" : "op_code",
+               "type" : [
+                  "null",
+                  "string"
+               ],
+               "doc" : "Type of transaction: `o` (checkout), `i` (checkin), `n` (hold), `nb` (bib hold), `ni` (item hold), `nv` (volume hold), `h` (hold with recall), `hb` (hold recall bib), `hi` (hold recall item), `hv` (hold recall volume), `f` (filled hold), `r` (renewal), `b` (booking), `u` (use count)"
+            },
+            {
+               "name" : "transaction_et",
+               "type" : [
+                  "null",
+                  "string"
+               ],
+               "doc" : "Transaction date (ISO 8601 date without time in ET)"
+            },
+            {
+               "name" : "due_date_et",
+               "type" : [
+                  "null",
+                  "string"
+               ],
+               "doc" : "Due date (ISO 8601 date without time in ET) The application of this date depends on the `op_code` for the transaction. The due date is not included for bookings (`op_code` `b`) or filled holds (`op_code` `f`). For `op_code` `i` (checkin), this is the original due date. For `op_code` `r` (renewal), this is the renewal due date. For `op_code` `o` (checkouts), this is the item due date. For `op_code` `n` (holds) and `h` (holds with recall), a non-zero entry indicates that the hold is for a checked-out item that is due on the specified date."
+            },
+            {
+               "name" : "application_name",
+               "doc" : "The name of the program that generated the transaction. Valid program names are: `circ` (includes transactions made using PC Circ), `circa` (for transactions written by selfcheckwebserver and in-house use [transaction codes 'u' and 's'], which use webpac to execute transactions.) `milcirc`, ` milmyselfcheck`, `readreq`, `selfcheck`",
+               "type" : "string"
+            },
+            {
+               "name" : "stat_group_code_num",
+               "type" : [
+                  "null",
+                  "int"
+               ],
+               "doc" : "The number of the terminal at which the transaction occurred or the user-specified statistics group number for PC-Circ transactions. Also stores the login's statistics group number for circulation transactions performed with the following Circa applications: checkout checkin count internal use"
+            },
+            {
+               "name" : "loanrule_code_num",
+               "type" : [
+                  "null",
+                  "int"
+               ],
+               "doc" : "Indicates loan rule governing transaction"
+            },
+            {
+               "name" : "source_code",
+               "type" : "string",
+               "doc" : "The transaction source. Possible values are: local INN-Reach ILL"
+            }
+         ],
+         "type" : "record",
+         "name" : "CircTrans"
+      },
+      "stream" : "CircTrans",
+      "schema" : "{\"fields\":[{\"doc\":\"uniqure processing row uuid, auto-generated and random\",\"name\":\"uuid\",\"type\":[\"string\"]},{\"doc\":\"Obfuscated unique transaction checksum of concatenated transaction information\",\"name\":\"transaction_checksum\",\"type\":[\"string\"]},{\"doc\":\"Obfuscated patron id\",\"name\":\"patron_id\",\"type\":[\"string\"]},{\"doc\":\"Patron ptype code\",\"name\":\"ptype_code\",\"type\":[\"null\",\"int\"]},{\"doc\":\"A five-character location code, right-padded with spaces, from the associated patron record.\",\"name\":\"patron_home_library_code\",\"type\":[\"null\",\"string\"]},{\"doc\":\"Patron 'home region' code\",\"name\":\"pcode3\",\"type\":[\"null\",\"int\"]},{\"doc\":\"Patron postal code\",\"name\":\"postal_code\",\"type\":[\"null\",\"string\"]},{\"doc\":\"Patron census tract\",\"name\":\"geoid\",\"type\":[\"null\",\"string\"]},{\"doc\":\"Item type code\",\"name\":\"itype_code_num\",\"type\":[\"null\",\"int\"]},{\"doc\":\"A five-character location code, right-padded with spaces, from the associated item record.\",\"name\":\"item_location_code\",\"type\":[\"null\",\"string\"]},{\"doc\":\"Item code 1\",\"name\":\"icode1\",\"type\":[\"null\",\"int\"]},{\"doc\":\"Type of transaction: `o` (checkout), `i` (checkin), `n` (hold), `nb` (bib hold), `ni` (item hold), `nv` (volume hold), `h` (hold with recall), `hb` (hold recall bib), `hi` (hold recall item), `hv` (hold recall volume), `f` (filled hold), `r` (renewal), `b` (booking), `u` (use count)\",\"name\":\"op_code\",\"type\":[\"null\",\"string\"]},{\"doc\":\"Transaction date (ISO 8601 date without time in ET)\",\"name\":\"transaction_et\",\"type\":[\"null\",\"string\"]},{\"doc\":\"Due date (ISO 8601 date without time in ET) The application of this date depends on the `op_code` for the transaction. The due date is not included for bookings (`op_code` `b`) or filled holds (`op_code` `f`). For `op_code` `i` (checkin), this is the original due date. For `op_code` `r` (renewal), this is the renewal due date. For `op_code` `o` (checkouts), this is the item due date. For `op_code` `n` (holds) and `h` (holds with recall), a non-zero entry indicates that the hold is for a checked-out item that is due on the specified date.\",\"name\":\"due_date_et\",\"type\":[\"null\",\"string\"]},{\"doc\":\"The name of the program that generated the transaction. Valid program names are: `circ` (includes transactions made using PC Circ), `circa` (for transactions written by selfcheckwebserver and in-house use [transaction codes 'u' and 's'], which use webpac to execute transactions.) `milcirc`, ` milmyselfcheck`, `readreq`, `selfcheck`\",\"name\":\"application_name\",\"type\":\"string\"},{\"doc\":\"The number of the terminal at which the transaction occurred or the user-specified statistics group number for PC-Circ transactions. Also stores the login's statistics group number for circulation transactions performed with the following Circa applications: checkout checkin count internal use\",\"name\":\"stat_group_code_num\",\"type\":[\"null\",\"int\"]},{\"doc\":\"Indicates loan rule governing transaction\",\"name\":\"loanrule_code_num\",\"type\":[\"null\",\"int\"]},{\"doc\":\"The transaction source. Possible values are: local INN-Reach ILL\",\"name\":\"source_code\",\"type\":\"string\"}],\"name\":\"CircTrans\",\"type\":\"record\"}"
+   },
+   "statusCode" : 200,
+   "count" : 1,
+   "debugInfo" : []
+}

@@ -1,13 +1,9 @@
-import chai from 'chai'
-import fs from 'fs'
+const fs = require('fs')
 
-import { processRecords } from '../../src/helpers/RecordsProcessor.js'
+const { processRecords } = require('../../src/helpers/RecordsProcessor.js')
 
 const schema = JSON.parse(fs.readFileSync('./test/stubs/CircTrans.json', 'utf8'))
 const records = JSON.parse(fs.readFileSync('./test/stubs/records.json', 'utf8'))
-
-const expect = chai.expect
-chai.should()
 
 describe('Records Processor: processRecords(schema, records)', () => {
   it('should return JSON array of 3 sample objects; 2 successes and 1 failure', () => {

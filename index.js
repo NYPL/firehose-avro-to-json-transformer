@@ -1,8 +1,8 @@
-import cache from './src/cache/CacheFactory.js'
-import logger from './src/helpers/Logger.js'
-import TransformerError from './src/helpers/ErrorHelper.js'
-import { schemaHandler, fetchSchema } from './src/helpers/SchemaHandler.js'
-import { processRecords } from './src/helpers/RecordsProcessor.js'
+const cache = require('./src/cache/CacheFactory.js')
+const logger = require('./src/helpers/Logger.js')
+const TransformerError = require('./src/helpers/ErrorHelper.js')
+const { schemaHandler, fetchSchema } = require('./src/helpers/SchemaHandler.js')
+const { processRecords } = require('./src/helpers/RecordsProcessor.js')
 
 const recordsHandler = async function (records, opts, context, callback) {
   try {
@@ -99,7 +99,7 @@ const handler = (event, context, callback) => {
   return callback(new Error('event is undefined'))
 }
 
-export default {
+module.exports = {
   schemaNameFromEvent,
   recordsHandler,
   configHandler,
