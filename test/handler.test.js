@@ -372,7 +372,7 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
     it('should handle a CircTrans batch', async () => {
       mock.onGet().reply(
         200,
-        JSON.parse(fs.readFileSync('./test/stubs/Circtrans-schema-response.json', 'utf8'))
+        JSON.parse(fs.readFileSync('./test/stubs/CircTrans-schema-response.json', 'utf8'))
       )
 
       const result = await new Promise((resolve, reject) => {

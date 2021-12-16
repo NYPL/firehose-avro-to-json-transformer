@@ -25,7 +25,10 @@ sam local invoke --profile nypl-digital-dev -t sam.qa.yml -e sample/firehose-Cir
 
 ## Contributing
 
-This repo uses the [Development-QA-Main Git Workflow](https://github.com/NYPL/engineering-general/blob/master/standards/git-workflow.md#development-qa-main)
+This repo uses the ["PRs Target Main, Merge to Deployment Branches" git workflow](https://github.com/NYPL/engineering-general/blob/main/standards/git-workflow.md#prs-target-main-merge-to-deployment-branches):
+ - Cut PRs from `main`
+ - Merge `main` > `qa`
+ - Merge `main` > `production`
 
 ## Deployment
 

@@ -20,7 +20,7 @@ jobs:
     - echo "Deploying to qa"
     - terraform -chdir=provisioning/qa apply -auto-approve -input=false
   - stage: deploy production
-    if: type IN (push) and branch = main
+    if: type IN (push) and branch = production
     env:
     - AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID_PRODUCTION
     - AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY_PRODUCTION
