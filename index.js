@@ -67,8 +67,11 @@ const configHandler = (records, opts, context, callback) => {
  */
 const schemaNameFromEvent = (event) => {
   console.log('Incoming event: ', JSON.stringify(event))
+  // Incoming deliveryStreamArn looks like:
+  // arn:aws:firehose:us-east-1:946183545209:deliverystream/PcReserve-production
   return event.deliveryStreamArn.split(':')
     .pop()
+    .replace(/^deliveryStream\//, '')
     .replace(/-[a-z]+$/, '')
     // Against convention, the "CircTransAnon" stream contains "CircTrans"
     // encoded records, so ensure that schema name is chosen:

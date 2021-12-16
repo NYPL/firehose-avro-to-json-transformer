@@ -1,6 +1,6 @@
 {
   "invocationId": "invocationIdExample",
-  "deliveryStreamArn": "arn:aws:kinesis:CircTransAnon-production",
+  "deliveryStreamArn": "arn:aws:kinesis:deliveryStream/CircTransAnon-production",
   "region": "us-east-1",
   "records": [
     {

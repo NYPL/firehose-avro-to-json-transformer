@@ -477,14 +477,14 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
   describe('schemaNameFromEvent', () => {
     it('should return CircTrans for CircTransAnon-production stream', () => {
       const schemaName = AvroToJsonTransformer.schemaNameFromEvent({
-        deliveryStreamArn: 'arn:aws:kinesis:CircTransAnon-production'
+        deliveryStreamArn: 'arn:aws:kinesis:deliveryStream/CircTransAnon-production'
       })
       expect(schemaName).to.equal('CircTrans')
     })
 
     it('should return PcReserve for PcReserve-production stream', () => {
       const schemaName = AvroToJsonTransformer.schemaNameFromEvent({
-        deliveryStreamArn: 'arn:aws:kinesis:PcReserve-production'
+        deliveryStreamArn: 'arn:aws:kinesis:deliveryStream/PcReserve-production'
       })
       expect(schemaName).to.equal('PcReserve')
     })
