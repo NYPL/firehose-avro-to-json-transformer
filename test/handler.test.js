@@ -49,7 +49,7 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
       const callbackSpy = sinon.spy()
 
       AvroToJsonTransformer.handler({
-        deliveryStreamArn: 'arn:...:NonsenseStream',
+        sourceKinesisStreamArn: 'arn:...:stream/NonsenseStream-production',
         records: []
       },
       null,
@@ -67,7 +67,7 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
       const callbackSpy = sinon.spy()
 
       AvroToJsonTransformer.handler({
-        deliveryStreamArn: 'arn:...:NonsenseStream',
+        sourceKinesisStreamArn: 'arn:...:stream/NonsenseStream-production',
         records: [
           {
             data: ''
@@ -159,7 +159,7 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
       const eventWithNonExistentSchema = Object.assign(
         {},
         pcReserveEvent,
-        { deliveryStreamArn: 'arn:aws:kinesis:NonExistentSchemaName-production' }
+        { sourceKinesisStreamArn: 'arn:...:stream/NonExistentSchemaName-production' }
       )
 
       AvroToJsonTransformer.handler(
@@ -477,14 +477,14 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
   describe('schemaNameFromEvent', () => {
     it('should return CircTrans for CircTransAnon-production stream', () => {
       const schemaName = AvroToJsonTransformer.schemaNameFromEvent({
-        deliveryStreamArn: 'arn:aws:kinesis:deliveryStream/CircTransAnon-production'
+        sourceKinesisStreamArn: 'arn:aws:kinesis:stream/CircTransAnon-production'
       })
       expect(schemaName).to.equal('CircTrans')
     })
 
     it('should return PcReserve for PcReserve-production stream', () => {
       const schemaName = AvroToJsonTransformer.schemaNameFromEvent({
-        deliveryStreamArn: 'arn:aws:kinesis:deliveryStream/PcReserve-production'
+        sourceKinesisStreamArn: 'arn:aws:kinesis:stream/PcReserve-production'
       })
       expect(schemaName).to.equal('PcReserve')
     })
