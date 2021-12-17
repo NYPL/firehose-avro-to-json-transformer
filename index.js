@@ -66,7 +66,6 @@ const configHandler = (records, opts, context, callback) => {
  *    "PcReserve"
  */
 const schemaNameFromEvent = (event) => {
-  console.log('Incoming event: ', JSON.stringify(event))
   // Incoming sourceKinesisStreamArn look like:
   //   "arn:aws:kinesis:us-east-1:946183545209:stream/PcReserve-production"
   return event.sourceKinesisStreamArn.split(':')
