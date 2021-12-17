@@ -146,7 +146,7 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
         payload.records.forEach((record) => {
           expect(record.data).to.be.a('string')
           expect(decodeBase64Json(record.data)).to.be.a('object')
-          expect(decodeBase64Json(record.data).key).to.be.a('string')
+          expect(decodeBase64Json(record.data).key).to.be.a('number')
         })
       })
     })
