@@ -66,8 +66,11 @@ const configHandler = (records, opts, context, callback) => {
  *    "PcReserve"
  */
 const schemaNameFromEvent = (event) => {
-  return event.deliverySteamArn.split(':')
+  // Incoming sourceKinesisStreamArn look like:
+  //   "arn:aws:kinesis:us-east-1:946183545209:stream/PcReserve-production"
+  return event.sourceKinesisStreamArn.split(':')
     .pop()
+    .replace(/^stream\//, '')
     .replace(/-[a-z]+$/, '')
     // Against convention, the "CircTransAnon" stream contains "CircTrans"
     // encoded records, so ensure that schema name is chosen:
