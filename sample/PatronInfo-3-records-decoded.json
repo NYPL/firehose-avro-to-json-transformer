@@ -1,0 +1,38 @@
+[
+  {
+    "patron_id": "patron-id-1234567890",
+    "address_hash": "address-hash-1234567890",
+    "postal_code": "55555",
+    "geoid": "12345678901",
+    "creation_date_et": "2022-12-01",
+    "deletion_date_et": "2022-12-03",
+    "circ_active_date_et": "2022-12-02",
+    "ptype_code": 123,
+    "pcode3": 987,
+    "patron_home_library_code": "ma"
+  },
+  {
+    "patron_id": "patron-id-1234567891",
+    "address_hash": "address-hash-1234567891",
+    "postal_code": "66666",
+    "geoid": null,
+    "creation_date_et": "2022-11-01",
+    "deletion_date_et": null,
+    "circ_active_date_et": "2022-11-02",
+    "ptype_code": 456,
+    "pcode3": 654,
+    "patron_home_library_code": "ma2"
+  },
+  {
+    "patron_id": "patron-id-1234567892",
+    "address_hash": "address-hash-1234567892",
+    "postal_code": null,
+    "geoid": null,
+    "creation_date_et": "2022-10-01",
+    "deletion_date_et": null,
+    "circ_active_date_et": null,
+    "ptype_code": null,
+    "pcode3": null,
+    "patron_home_library_code": null
+  }
+]
