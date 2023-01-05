@@ -11,6 +11,7 @@ const { setEnv, restoreEnv, decodeBase64Json } = require('./test-helper.js')
 
 const circTransEvent = JSON.parse(fs.readFileSync('./sample/firehose-CircTrans-3-records-encoded.json', 'utf8'))
 const pcReserveEvent = JSON.parse(fs.readFileSync('./sample/firehose-PcReserve-3-records-encoded.json', 'utf8'))
+const patronInfoEvent = JSON.parse(fs.readFileSync('./sample/firehose-PatronInfo-3-records-encoded.json', 'utf8'))
 
 const recordsHandlerFn = AvroToJsonTransformer.recordsHandler
 const configHandlerFn = AvroToJsonTransformer.configHandler
@@ -146,7 +147,40 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
         payload.records.forEach((record) => {
           expect(record.data).to.be.a('string')
           expect(decodeBase64Json(record.data)).to.be.a('object')
-          expect(decodeBase64Json(record.data).key).to.be.a('number')
+          expect(decodeBase64Json(record.data).key).to.be.a('string')
+        })
+      })
+    })
+
+    it('should callback with decoded PatronInfo records', () => {
+      mock.onGet().reply(
+        200,
+        JSON.parse(fs.readFileSync('./test/stubs/PatronInfo-schema-response.json', 'utf8'))
+      )
+
+      const callbackSpy = sinon.spy()
+
+      AvroToJsonTransformer.handler(
+        patronInfoEvent,
+        null,
+        callbackSpy
+      )
+
+      // A success callback invocation is technically async, so let things resolve:
+      setImmediate(() => {
+        expect(callbackSpy).to.be.called
+
+        const errArg = callbackSpy.firstCall.args[0]
+        expect(errArg).to.be.null
+
+        const payload = callbackSpy.firstCall.args[1]
+        expect(payload).to.be.a('object')
+        expect(payload.records).to.be.a('array')
+        expect(payload.records).to.have.lengthOf(3)
+        payload.records.forEach((record) => {
+          expect(record.data).to.be.a('string')
+          expect(decodeBase64Json(record.data)).to.be.a('object')
+          expect(decodeBase64Json(record.data).patron_id).to.be.a('string')
         })
       })
     })
