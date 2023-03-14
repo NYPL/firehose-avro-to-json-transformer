@@ -32,7 +32,7 @@ This repo uses the ["PRs Target Main, Merge to Deployment Branches" git workflow
 
 ## Deployment
 
-This app is deployed via Travis-CI using terraform. Code in `qa` is pushed to AvroToJsonTransformer-qa. Code in `main` is pushed to AvroToJsonTransformer-production.
+This app is deployed via Travis-CI using terraform. Code in `qa` is pushed to AvroToJsonTransformer-qa. Code in `production` is pushed to AvroToJsonTransformer-production.
 
 ## Tests
 
