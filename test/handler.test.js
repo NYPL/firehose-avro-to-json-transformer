@@ -195,7 +195,6 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
     })
 
     it('should callback with decoded LocationHours csv records', () => {
-      setEnv({ OUTPUT_FORMAT: 'csv' })
       mock.onGet().reply(
         200,
         JSON.parse(fs.readFileSync('./test/stubs/LocationHours-schema-response.json', 'utf8'))
