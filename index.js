@@ -87,6 +87,10 @@ const handler = (event, context, callback) => {
     const record = event.records[0]
 
     const schemaName = schemaNameFromEvent(event)
+    let outputFormat = 'json'
+    if (schemaName === 'LocationHours') {
+      outputFormat = 'csv'
+    }
     if (record.data) {
       return configHandler(
         event.records,
@@ -94,7 +98,7 @@ const handler = (event, context, callback) => {
           nyplDataApiBaseUrl: process.env.NYPL_DATA_API_BASE_URL,
           schemaPath: process.env.SCHEMA_PATH,
           schemaName,
-          outputFormat: process.env.OUTPUT_FORMAT || 'json'
+          outputFormat
         },
         context,
         callback
