@@ -2,14 +2,14 @@ const avro = require('avsc')
 
 const logger = require('./Logger.js')
 
-// Map records to decode Avro and return JSON as data to firehose.
-const processRecords = function (schema, records) {
+// Map records to decode Avro and return data in desired output format to firehose.
+const processRecords = function (schema, records, outputFormat) {
   let success = 0
   let failure = 0
   const type = avro.Type.forSchema(schema)
   const output = records.map((record) => {
-    const jsonData = decodeAvro(type, record.data)
-    if (!jsonData) {
+    const decodedData = decodeAvro(type, record.data)
+    if (!decodedData) {
       failure++
       return {
         recordId: record.recordId,
@@ -17,11 +17,27 @@ const processRecords = function (schema, records) {
         data: record.data
       }
     }
+
+    let resultString = ''
+    if (outputFormat === 'csv') {
+      Object.values(decodedData).forEach((value) => {
+        if (value === null) {
+          value = ''
+        } else if (typeof value === 'string') {
+          value = value.replace('|', '\\|')
+        }
+        resultString += (value + '|')
+      })
+      resultString = resultString.slice(0, -1)
+    } else {
+      resultString = JSON.stringify(decodedData)
+    }
+
     success++
     return {
       recordId: record.recordId,
       result: 'Ok',
-      data: Buffer.from(JSON.stringify(jsonData)).toString('base64')
+      data: Buffer.from(resultString).toString('base64')
     }
   })
   logger.info(`Processing completed.  Successful transformations -  ${success}.  Failed transformations - ${failure}.`)

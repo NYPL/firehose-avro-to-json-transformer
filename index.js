@@ -13,7 +13,7 @@ const recordsHandler = async function (records, opts, context, callback) {
     }
 
     if (cache.getSchema(opts.schemaName)) {
-      const output = processRecords(cache.getSchema(opts.schemaName), records)
+      const output = processRecords(cache.getSchema(opts.schemaName), records, opts.outputFormat)
       return callback(null, { records: output })
     }
   } catch (e) {
@@ -48,7 +48,12 @@ const configHandler = (records, opts, context, callback) => {
         { type: 'function-parameter-error' }
       )
     }
-
+    if (!opts.outputFormat || typeof opts.outputFormat !== 'string' || (opts.outputFormat !== 'json' && opts.outputFormat !== 'csv')) {
+      throw new TransformerError(
+        'missing/unsupported outputFormat config parameter',
+        { type: 'function-parameter-error' }
+      )
+    }
     return recordsHandler(records, opts, context, callback)
   } catch (e) {
     logger.error(`transformer-configuration-error: ${e.message}`)
@@ -88,7 +93,8 @@ const handler = (event, context, callback) => {
         {
           nyplDataApiBaseUrl: process.env.NYPL_DATA_API_BASE_URL,
           schemaPath: process.env.SCHEMA_PATH,
-          schemaName
+          schemaName,
+          outputFormat: process.env.OUTPUT_FORMAT || 'json'
         },
         context,
         callback

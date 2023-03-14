@@ -1,10 +1,10 @@
 # Kinesis Firehose Avro to Json Transformer Lambda
 [![Build Status](https://travis-ci.org/NYPL/firehose-avro-to-json-transformer.svg?branch=main)](https://travis-ci.org/NYPL/firehose-avro-to-json-transformer)
 
-This app reads from Firehose Kinesis streams, decodes the records using the appropriate Avro schema based on the stream name, and returns the resulting records (base64 encoded). This app is responsible for decoding CircTrans and PcReserve records immediately before ingest into the [BIC Redshift](https://github.com/NYPL/BIC).
+This app reads from Firehose Kinesis streams, decodes the records using the appropriate Avro schema based on the stream name, and returns the resulting records as either JSON or CSV (base64 encoded). This app is responsible for decoding records immediately before ingest into the [BIC](https://github.com/NYPL/BIC).
 
 ## Version
-> v1.0.0
+> v1.0.1
 
 ## Installation
 
@@ -64,5 +64,5 @@ This codebase uses [Standard JS](https://www.npmjs.com/package/standard) as the 
 To check for linting errors:
 
 ```console
-$ npm run lint
+npm run lint
 ```

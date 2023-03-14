@@ -12,6 +12,12 @@ const { setEnv, restoreEnv, decodeBase64Json } = require('./test-helper.js')
 const circTransEvent = JSON.parse(fs.readFileSync('./sample/firehose-CircTrans-3-records-encoded.json', 'utf8'))
 const pcReserveEvent = JSON.parse(fs.readFileSync('./sample/firehose-PcReserve-3-records-encoded.json', 'utf8'))
 const patronInfoEvent = JSON.parse(fs.readFileSync('./sample/firehose-PatronInfo-3-records-encoded.json', 'utf8'))
+const locationHoursEvent = JSON.parse(fs.readFileSync('./sample/firehose-LocationHours-3-records-encoded.json', 'utf8'))
+
+const circTransJson = JSON.parse(fs.readFileSync('./sample/CircTrans-3-records-decoded.json', 'utf8'))
+const pcReserveJson = JSON.parse(fs.readFileSync('./sample/PcReserve-3-records-decoded.json', 'utf8'))
+const patronInfoJson = JSON.parse(fs.readFileSync('./sample/PatronInfo-3-records-decoded.json', 'utf8'))
+const locationHoursCsv = fs.readFileSync('./sample/LocationHours-3-records-decoded.csv', 'utf8').split('\n')
 
 const recordsHandlerFn = AvroToJsonTransformer.recordsHandler
 const configHandlerFn = AvroToJsonTransformer.configHandler
@@ -111,11 +117,12 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
         expect(payload).to.be.a('object')
         expect(payload.records).to.be.a('array')
         expect(payload.records).to.have.lengthOf(3)
-        payload.records.forEach((record) => {
+        for (let i = 0; i < 3; i++) {
+          const record = payload.records[i]
           expect(record.data).to.be.a('string')
           expect(decodeBase64Json(record.data)).to.be.a('object')
-          expect(decodeBase64Json(record.data).uuid).to.be.a('string')
-        })
+          expect(decodeBase64Json(record.data)).to.be.deep.equal(circTransJson[i])
+        }
       })
     })
 
@@ -144,11 +151,12 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
         expect(payload).to.be.a('object')
         expect(payload.records).to.be.a('array')
         expect(payload.records).to.have.lengthOf(3)
-        payload.records.forEach((record) => {
+        for (let i = 0; i < 3; i++) {
+          const record = payload.records[i]
           expect(record.data).to.be.a('string')
           expect(decodeBase64Json(record.data)).to.be.a('object')
-          expect(decodeBase64Json(record.data).key).to.be.a('string')
-        })
+          expect(decodeBase64Json(record.data)).to.be.deep.equal(pcReserveJson[i])
+        }
       })
     })
 
@@ -177,11 +185,46 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
         expect(payload).to.be.a('object')
         expect(payload.records).to.be.a('array')
         expect(payload.records).to.have.lengthOf(3)
-        payload.records.forEach((record) => {
+        for (let i = 0; i < 3; i++) {
+          const record = payload.records[i]
           expect(record.data).to.be.a('string')
           expect(decodeBase64Json(record.data)).to.be.a('object')
-          expect(decodeBase64Json(record.data).patron_id).to.be.a('string')
-        })
+          expect(decodeBase64Json(record.data)).to.be.deep.equal(patronInfoJson[i])
+        }
+      })
+    })
+
+    it('should callback with decoded LocationHours csv records', () => {
+      setEnv({ OUTPUT_FORMAT: 'csv' })
+      mock.onGet().reply(
+        200,
+        JSON.parse(fs.readFileSync('./test/stubs/LocationHours-schema-response.json', 'utf8'))
+      )
+
+      const callbackSpy = sinon.spy()
+
+      AvroToJsonTransformer.handler(
+        locationHoursEvent,
+        null,
+        callbackSpy
+      )
+
+      // A success callback invocation is technically async, so let things resolve:
+      setImmediate(() => {
+        expect(callbackSpy).to.be.called
+
+        const errArg = callbackSpy.firstCall.args[0]
+        expect(errArg).to.be.null
+
+        const payload = callbackSpy.firstCall.args[1]
+        expect(payload).to.be.a('object')
+        expect(payload.records).to.be.a('array')
+        expect(payload.records).to.have.lengthOf(3)
+        for (let i = 0; i < 3; i++) {
+          const record = payload.records[i]
+          expect(record.data).to.be.a('string')
+          expect(Buffer.from(record.data, 'base64').toString('utf8')).to.be.equal(locationHoursCsv[i])
+        }
       })
     })
 
@@ -413,6 +456,48 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
       expect(callbackSpy.callCount).to.equal(1)
       expect(errArg).to.be.instanceOf(Error)
       expect(errArg.message).to.equal('missing/undefined schemaName config parameter')
+    })
+
+    it('should respond with a TransformerError if outputFormat is not a string', () => {
+      const callbackSpy = sinon.spy()
+      configHandlerFn(
+        circTransEvent.records,
+        {
+          nyplDataApiBaseUrl: 'https://nypl.org/api/stuff',
+          schemaPath: 'path/to/schema',
+          schemaName: 'schema',
+          outputFormat: 1
+        },
+        null,
+        callbackSpy
+      )
+
+      const errArg = callbackSpy.firstCall.args[0]
+
+      expect(callbackSpy.callCount).to.equal(1)
+      expect(errArg).to.be.instanceOf(Error)
+      expect(errArg.message).to.equal('missing/unsupported outputFormat config parameter')
+    })
+
+    it('should respond with a TransformerError if outputFormat is not json or csv', () => {
+      const callbackSpy = sinon.spy()
+      configHandlerFn(
+        circTransEvent.records,
+        {
+          nyplDataApiBaseUrl: 'https://nypl.org/api/stuff',
+          schemaPath: 'path/to/schema',
+          schemaName: 'schema',
+          outputFormat: 'bad format'
+        },
+        null,
+        callbackSpy
+      )
+
+      const errArg = callbackSpy.firstCall.args[0]
+
+      expect(callbackSpy.callCount).to.equal(1)
+      expect(errArg).to.be.instanceOf(Error)
+      expect(errArg.message).to.equal('missing/unsupported outputFormat config parameter')
     })
   })
 

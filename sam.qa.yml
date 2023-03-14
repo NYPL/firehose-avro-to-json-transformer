@@ -15,3 +15,4 @@ Resources:
           SCHEMA_NAME: CircTrans
           SCHEMA_PATH: current-schemas/
           LOG_LEVEL: debug
+          OUTPUT_FORMAT: json
