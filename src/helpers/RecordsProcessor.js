@@ -28,7 +28,7 @@ const processRecords = function (schema, records, outputFormat) {
         }
         resultString += (value + '|')
       })
-      resultString = resultString.slice(0, -1)
+      resultString = resultString.slice(0, -1) + '\n'
     } else {
       resultString = JSON.stringify(decodedData)
     }
