@@ -222,7 +222,7 @@ describe('AvroToJsonTransformer Lambda: Handle Firehose Input', () => {
         for (let i = 0; i < 3; i++) {
           const record = payload.records[i]
           expect(record.data).to.be.a('string')
-          expect(Buffer.from(record.data, 'base64').toString('utf8')).to.be.equal(locationHoursCsv[i])
+          expect(Buffer.from(record.data, 'base64').toString('utf8')).to.be.equal(locationHoursCsv[i] + '\n')
         }
       })
     })
