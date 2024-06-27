@@ -10,7 +10,7 @@ def lambda_handler(event, context):
     logger.info("Starting event processing...")
 
     records = event["Records"]
-    if event and (records is list) and (len(records) > 0):
+    if (event is not None) and (records is list) and (len(records) > 0):
         # ^ TODO: this is gross
         schema_name = pull_schema_name(event)
         output_format = "json" if schema_name != "LocationHours" else "csv"
@@ -18,7 +18,6 @@ def lambda_handler(event, context):
         if ("data" in records[0]):
             os.environ["SCHEMA_NAME"] = schema_name
             os.environ["OUTPUT_FORMAT"] = output_format
-
         else:
             logger.error("Event contains no records.")
     else:

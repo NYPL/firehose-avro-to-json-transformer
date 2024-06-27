@@ -1,1 +1,1 @@
-nypl-py-utils[mysql-client]==1.1.2
+nypl-py-utils[mysql-client]==1.1.5
