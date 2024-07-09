@@ -8,6 +8,7 @@ coverage
 __pycache__/
 .terraform.lock.hcl
 .terraform
+.pytest_cache
 dist.zip
 *env/
 *.py[cod]

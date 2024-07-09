@@ -4,7 +4,7 @@
 This app reads from Firehose Kinesis streams, decodes the records using the appropriate Avro schema based on the stream name, and returns the resulting records as either JSON or CSV (base64 encoded). This app is responsible for decoding records immediately before ingest into the [BIC](https://github.com/NYPL/BIC).
 
 ## Version
-> v1.0.1
+> v1.1.0
 
 ## Installation
 
@@ -17,7 +17,7 @@ npm install
 
 ## Running Locally
 
-Use the [sam cli](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html) to run the lambda on arbitrary firehose events. To process a firehose event containing 3 CircTrans records and print out the result:
+Use the [sam cli](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html) to run the Lambda on arbitrary Firehose events. To process a Firehose event containing 3 CircTrans records and print out the result:
 
 ```
 sam local invoke --profile nypl-digital-dev -t sam.qa.yml -e sample/firehose-CircTrans-3-records-encoded.json

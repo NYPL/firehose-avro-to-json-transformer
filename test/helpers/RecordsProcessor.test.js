@@ -8,6 +8,7 @@ const records = JSON.parse(fs.readFileSync('./test/stubs/records.json', 'utf8'))
 describe('Records Processor: processRecords(schema, records)', () => {
   it('should return JSON array of 3 sample objects; 2 successes and 1 failure', () => {
     const result = processRecords(schema, records.records)
+    console.log('result:', result)
 
     let jsn = false
     const buf = Buffer.from(result[0].data, 'base64')
