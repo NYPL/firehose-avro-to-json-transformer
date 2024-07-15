@@ -1,7 +1,6 @@
 import json
 import os
 import pytest
-import requests_mock
 
 # Sets OS vars for entire set of tests
 TEST_ENV_VARS = {
@@ -9,6 +8,7 @@ TEST_ENV_VARS = {
     "SCHEMA_PATH": "current-schemas/",
     "LOG_LEVEL": "debug",
 }
+
 
 @pytest.fixture
 def test_data():
@@ -20,6 +20,7 @@ def test_data():
             key = file.split(".")[0]
             test_data[key] = json.load(f)
     return test_data
+
 
 @pytest.fixture(scope="session", autouse=True)
 def tests_setup_and_teardown():

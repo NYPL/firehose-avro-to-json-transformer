@@ -24,7 +24,9 @@ const processRecords = function (schema, records, outputFormat) {
         if (value === null) {
           value = ''
         } else if (typeof value === 'string') {
+          console.log('value before: ', value)
           value = value.replace('|', '\\|')
+          console.log('value after: ', value)
         }
         resultString += (value + '|')
       })
