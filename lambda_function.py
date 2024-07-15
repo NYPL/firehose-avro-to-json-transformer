@@ -7,7 +7,7 @@ from nypl_py_utils.functions.config_helper import load_env_file
 from records_processor import RecordsProcessor
 
 
-def lambda_handler(event):
+def lambda_handler(event, context):
     logger = create_log("lambda_function")
     load_env_file(os.environ["ENVIRONMENT"], "config/{}.yaml")
 
