@@ -4,7 +4,7 @@ import re
 
 from nypl_py_utils.functions.log_helper import create_log
 from nypl_py_utils.functions.config_helper import load_env_file
-from records_processor import RecordsProcessor
+from record_processor import RecordProcessor
 
 
 def lambda_handler(event, context):
@@ -13,33 +13,41 @@ def lambda_handler(event, context):
 
     logger.info("Starting event processing...")
 
-    if event is not None:
-        records = event["Records"]
-        schema_name = _pull_schema_name(event)
-        output_format = "json" if schema_name != "LocationHours" else "csv"
-        if (records is list) and (len(records) > 0) and ("data" in records[0]):
-            os.environ["SCHEMA_NAME"] = schema_name
-            try:
-                schema_url = (
-                    os.environ["NYPL_DATA_API_BASE_URL"] + f"/schemas/{schema_name}"
-                )
-                processor = RecordsProcessor(schema_url)
-                processor.process_records(records, output_format)
-            except Exception as e:
-                logger.error(f"Error processing records: {e}")
-                raise e
-        else:
-            logger.error("Event contains no records.")
-    else:
+    if event is None:
         logger.error("Event is undefined.")
-    
-    logger.info("Finished lambda processing.")
-    return {
-        "statusCode": 200,
-        "body": json.dumps({
-            "message": "Job ran successfully."
-        })
-    }
+        # TODO: raise exception here?
+    else:
+        # All records under one event will have the same schema
+        schema_name = _pull_schema_name(event)
+        os.environ["SCHEMA_NAME"] = schema_name
+        schema_url = os.environ["NYPL_DATA_API_BASE_URL"] + f"/schemas/{schema_name}"
+        output_format = "json" if schema_name != "LocationHours" else "csv"
+
+        processor = RecordProcessor(schema_url)
+        successes, failures = 0, 0
+        processed_records = []
+
+        try:
+            for record in event["Records"]:
+                if "data" in record:
+                    result = processor.process_record(record, output_format)
+                    if "ProcessingFailed" in result["result"]:
+                        failures += 1
+                    else:
+                        successes += 1
+                    processed_records.append(result)
+        except Exception as e:
+            # Catch any errors in the case event has no records, etc
+            logger.error(f"Error processing records: {repr(e)}")
+            raise RecordParsingError(e)
+
+        logger.info(
+            f"Processing complete. Successful transformations - {successes}. Failed transformations - {failures}."
+        )
+
+        logger.info("Finished lambda processing.")
+        # TODO: What am I supposed to return????
+        return {"statusCode": 200, "body": {"records": json.dumps(processed_records)}}
 
 
 def _pull_schema_name(event):

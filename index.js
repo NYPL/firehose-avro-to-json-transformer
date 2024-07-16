@@ -62,7 +62,7 @@ const configHandler = (records, opts, context, callback) => {
 }
 
 /**
- *  Given a firehose event, returns the schema name records are encoded using
+ *  Given a Firehose event, returns the schema name records are encoded using
  *  based on stream ARN
  *
  *  For example, given an event with:
@@ -92,6 +92,18 @@ const handler = (event, context, callback) => {
       outputFormat = 'csv'
     }
     if (record.data) {
+      x = configHandler(
+        event.records,
+        {
+          nyplDataApiBaseUrl: process.env.NYPL_DATA_API_BASE_URL,
+          schemaPath: process.env.SCHEMA_PATH,
+          schemaName,
+          outputFormat
+        },
+        context,
+        callback
+      )
+      let out; x.then(x => out = x); console.log("here's another out ", out)
       return configHandler(
         event.records,
         {

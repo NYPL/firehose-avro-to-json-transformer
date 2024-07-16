@@ -1,1 +1,8 @@
+base64
+boto3
+botocore
+csv
+io
+json
 nypl-py-utils[mysql-client]==1.1.5
+yaml

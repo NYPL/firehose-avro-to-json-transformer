@@ -1,10 +1,10 @@
 # Kinesis Firehose Avro to Json Transformer Lambda
 [![Build Status](https://travis-ci.org/NYPL/firehose-avro-to-json-transformer.svg?branch=main)](https://travis-ci.org/NYPL/firehose-avro-to-json-transformer)
 
-This app reads from Firehose Kinesis streams, decodes the records using the appropriate Avro schema based on the stream name, and returns the resulting records as either JSON or CSV (base64 encoded). This app is responsible for decoding records immediately before ingest into the [BIC](https://github.com/NYPL/BIC).
+This app reads from Firehose Kinesis streams, decodes the records using the appropriate Avro schema based on the stream name, and returns the resulting records in either JSON or CSV format (base64 encoded). This app is responsible for decoding records immediately before ingestion into the [BIC](https://github.com/NYPL/BIC).
 
 ## Version
-> v1.1.0
+> v2.0.0
 
 ## Installation
 
@@ -32,7 +32,7 @@ This repo uses the ["PRs Target Main, Merge to Deployment Branches" git workflow
 
 ## Deployment
 
-This app is deployed via Travis-CI using terraform. Code in `qa` is pushed to AvroToJsonTransformer-qa. Code in `production` is pushed to AvroToJsonTransformer-production.
+This app is deployed via Travis-CI using Terraform. Code in `qa` is pushed to AvroToJsonTransformer-qa. Code in `production` is pushed to AvroToJsonTransformer-production.
 
 ## Tests
 
