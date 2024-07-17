@@ -18,10 +18,10 @@ class RecordProcessor:
         Maps records to decoded Avro. Method returns data in
         desired output format for Firehose (JSON or CSV string)
         """
-        binary_data = base64.b64decode(record["data"])
-        decoded_record = self.avro_decoder.decode_record(binary_data)
+        binary_record_data = base64.b64decode(record["data"])
+        decoded_record_data = self.avro_decoder.decode_record(binary_record_data)
 
-        if decoded_record is None:
+        if decoded_record_data is None:
             # Unable to decode Avro record
             return {
                 "recordId": record["recordId"],
@@ -29,21 +29,23 @@ class RecordProcessor:
                 "data": record["data"],
             }
         else:
-            result_string = self._format_result_string(output_format, decoded_record)
+            result_string = self._format_result_string(
+                output_format, decoded_record_data
+            )
             return {
                 "recordId": record["recordId"],
                 "result": "Ok",
                 "data": result_string,  # needed for JSON conversion
             }
 
-    def _format_result_string(self, output_format, decoded_record):
-        if output_format == "csv" and isinstance(decoded_record, dict):
-            decoded_record = self._transform_dictionary_to_csv_string(decoded_record)
+    def _format_result_string(self, output_format, data):
+        if output_format == "csv" and isinstance(data, dict):
+            data = self._transform_dictionary_to_csv_string(data)
         else:
-            decoded_record = json.dumps(decoded_record)
+            data = json.dumps(data)
         # After decoding, convert to base64. More often than not,
         # the original data is either encoded or not in base64
-        to_bytes = decoded_record.encode("utf-8")
+        to_bytes = data.encode("utf-8")
         return (base64.b64encode(to_bytes)).decode("utf-8")
 
     def _transform_dictionary_to_csv_string(self, data):
