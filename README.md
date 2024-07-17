@@ -11,7 +11,7 @@ This Python application is responsible for Avro-decoding events immediately befo
 Use the [sam cli](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html) to run the Lambda on arbitrary Firehose events. To process a Firehose event containing 3 CircTrans records and print out the result:
 
 ```
-sam local invoke --profile nypl-digital-dev -t sam.qa.yml -e sample/firehose-CircTrans-3-records-encoded.json
+sam local invoke --profile nypl-digital-dev -t config/sam.qa.yml -e sample/firehose-CircTrans-3-records-encoded.json
 ```
 
 The [sample](./sample) folder contains sample Firehose events and their expected outcomes after Lambda event handling, so you can test the efficacy of your code with various schemas.
