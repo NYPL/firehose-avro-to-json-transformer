@@ -20,7 +20,11 @@ def lambda_handler(event, context):
         # All records under one event will have the same schema
         schema_name = _pull_schema_name(event)
         os.environ["SCHEMA_NAME"] = schema_name
-        schema_url = os.environ["NYPL_DATA_API_BASE_URL"] + f"/schemas/{schema_name}"
+        schema_url = (
+            os.environ["NYPL_DATA_API_BASE_URL"]
+            + os.environ["SCHEMA_PATH"]
+            + f"{schema_name}"
+        )
         output_format = "json" if schema_name != "LocationHours" else "csv"
 
         processor = RecordProcessor(schema_url)
@@ -28,7 +32,10 @@ def lambda_handler(event, context):
         processed_records = []
 
         try:
-            for record in event["Records"]:
+            # In case of key capitalization
+            lowercase_event = {k.lower(): v for k, v in event.items()}
+
+            for record in lowercase_event["records"]:
                 if "data" in record:
                     result = processor.process_record(record, output_format)
                     if "ProcessingFailed" in result["result"]:
@@ -37,7 +44,7 @@ def lambda_handler(event, context):
                         successes += 1
                     processed_records.append(result)
         except Exception as e:
-            # Catch any errors in the case event has no records, etc
+            # Catch any errors in the case the event has no records, etc
             logger.error(f"Error processing records: {repr(e)}")
             raise RecordParsingError(e)
 
@@ -46,8 +53,7 @@ def lambda_handler(event, context):
         )
 
         logger.info("Finished lambda processing.")
-        # TODO: What am I supposed to return????
-        return {"statusCode": 200, "body": {"records": json.dumps(processed_records)}}
+        return {"records": processed_records}
 
 
 def _pull_schema_name(event):

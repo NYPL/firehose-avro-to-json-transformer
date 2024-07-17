@@ -3,6 +3,7 @@ node_modules
 coverage
 
 .aws-sam/
+.coverage
 .DS_Store
 .vscode/
 __pycache__/

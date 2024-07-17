@@ -1,8 +1,8 @@
-base64
+black
 boto3
 botocore
-csv
-io
-json
-nypl-py-utils[mysql-client]==1.1.5
-yaml
+nypl-py-utils[mysql-client]==1.2.0
+pybase64
+python-csv
+python-io
+pyyaml

@@ -12,7 +12,7 @@ TEST_ENV_VARS = {
 
 @pytest.fixture
 def test_data():
-    test_data_directory = "test/stubs"
+    test_data_directory = "tests/stubs"
     test_data = {}
 
     for file in os.listdir(test_data_directory):
