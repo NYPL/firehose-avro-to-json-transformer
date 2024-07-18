@@ -1,7 +1,7 @@
 black
 boto3
 botocore
-nypl-py-utils[mysql-client]==1.2.0
+nypl-py-utils[avro, requests]==1.2.0
 pybase64
 python-csv
 python-io

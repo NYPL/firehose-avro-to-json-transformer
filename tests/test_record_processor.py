@@ -1,5 +1,4 @@
 import json
-import logging
 import pytest
 
 from record_processor import RecordProcessor
