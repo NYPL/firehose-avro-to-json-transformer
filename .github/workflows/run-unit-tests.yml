@@ -1,23 +1,30 @@
 name: Run Python unit tests
 
-on: [ push ]
+on: pull_request: types: [ labeled, unlabeled, opened, reopened, synchronize ]
 
 jobs:
+  changelog:
+    name: Updates changelog
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dangoslen/changelog-enforcer@v3
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Set up Python 3.9
+      - name: Set up Python 3.12
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.12'
           cache: 'pip'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install -r devel_requirements.txt
           pip install -r requirements.txt
 
       - name: Run linter and test suite

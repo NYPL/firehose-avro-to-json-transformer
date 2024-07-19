@@ -1,14 +1,15 @@
 import os
 import re
 
-from nypl_py_utils.functions.log_helper import create_log
 from nypl_py_utils.functions.config_helper import load_env_file
+from nypl_py_utils.functions.log_helper import create_log
 from record_processor import RecordProcessor
 
 
 def lambda_handler(event, context):
     logger = create_log("lambda_function")
-    load_env_file(os.environ["ENVIRONMENT"], "config/{}.yaml")
+    if os.environ["ENVIRONMENT"] == "devel":
+        load_env_file(os.environ["ENVIRONMENT"], "config/{}.yaml")
 
     logger.info("Starting event processing...")
 
@@ -18,11 +19,8 @@ def lambda_handler(event, context):
     else:
         # All records under one event will have the same schema
         schema_name = _pull_schema_name(event)
-        os.environ["SCHEMA_NAME"] = schema_name
         schema_url = (
-            os.environ["NYPL_DATA_API_BASE_URL"]
-            + os.environ["SCHEMA_PATH"]
-            + f"{schema_name}"
+            os.environ["NYPL_DATA_API_BASE_URL"] + "current-schemas/" + f"{schema_name}"
         )
         output_format = "json" if schema_name != "LocationHours" else "csv"
 
@@ -38,6 +36,10 @@ def lambda_handler(event, context):
                 if "data" in record:
                     result = processor.process_record(record, output_format)
                     if "ProcessingFailed" in result["result"]:
+                        logger.error(
+                            "Unable to process record with following data: ",
+                            record["data"],
+                        )
                         failures += 1
                     else:
                         successes += 1

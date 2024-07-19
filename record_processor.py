@@ -3,8 +3,8 @@ import csv
 import io
 import json
 
-from nypl_py_utils.functions.log_helper import create_log
 from nypl_py_utils.classes.avro_client import AvroDecoder
+from nypl_py_utils.functions.log_helper import create_log
 
 
 class RecordProcessor:
@@ -43,8 +43,8 @@ class RecordProcessor:
             data = self._transform_dictionary_to_csv_string(data)
         else:
             data = json.dumps(data)
-        # After decoding, convert to base64. More often than not,
-        # the original data is either encoded or not in base64
+        
+        # encode output data to base64
         to_bytes = data.encode("utf-8")
         return (base64.b64encode(to_bytes)).decode("utf-8")
 

@@ -6,7 +6,6 @@ import pytest
 TEST_ENV_VARS = {
     "ENVIRONMENT": "test",
     "NYPL_DATA_API_BASE_URL": "https://qa-platform.nypl.org/api/v0.1/",
-    "SCHEMA_PATH": "current-schemas/",
 }
 
 

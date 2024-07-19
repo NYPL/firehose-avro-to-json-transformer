@@ -8,11 +8,9 @@ Resources:
     Properties:
       CodeUri: .
       Handler: lambda_function.lambda_handler
-      Runtime: python3.9
+      Runtime: python3.12
       Timeout: 10
       Environment:
         Variables:
           NYPL_DATA_API_BASE_URL: https://qa-platform.nypl.org/api/v0.1/
-          SCHEMA_NAME: CircTrans
-          SCHEMA_PATH: current-schemas/
           LOG_LEVEL: debug
