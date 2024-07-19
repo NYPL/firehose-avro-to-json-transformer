@@ -20,7 +20,7 @@ patron_info_processed_records = [
     },
 ]
 
-circ_trans_processed_records =[
+circ_trans_processed_records = [
     {
         "recordId": "789",
         "result": "Ok",

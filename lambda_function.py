@@ -15,10 +15,11 @@ def lambda_handler(event, context):
 
     if event is None:
         logger.error("Event is undefined.")
-        # TODO: raise exception here?
+        raise RecordParsingError("No event found.")
     else:
         # All records under one event will have the same schema
-        schema_name = _pull_schema_name(event)
+        schema_name = _pull_schema_name(
+            event["sourceKinesisStreamArn"])
         schema_url = (
             os.environ["NYPL_DATA_API_BASE_URL"] + "current-schemas/" + f"{schema_name}"
         )
@@ -50,19 +51,20 @@ def lambda_handler(event, context):
             raise RecordParsingError(e)
 
         logger.info(
-            f"Processing complete. Successful transformations - {successes}. Failed transformations - {failures}."
+            f"Processing complete. Successful transformations - {successes}. 
+            Failed transformations - {failures}."
         )
 
         logger.info("Finished lambda processing.")
         return {"records": processed_records}
 
 
-def _pull_schema_name(event):
-    """Given a Firehouse event, pulls encoded schema type from stream ARN.
+def _pull_schema_name(stream_arn):
+    """Given a Firehose event's stream ARN, pulls encoded schema type.
     Example input -- "arn:aws:kinesis:us-east-1:946183545209:stream/PcReserve-production"
     Example output -- "PcReserve"
     """
-    filtered_for_stream_name = event["sourceKinesisStreamArn"].split(":").pop()
+    filtered_for_stream_name = stream_arn.split(":").pop()
     # Against convention, the "CircTransAnon" stream contains "CircTrans"
     # encoded records, so ensure the correct schema name is chosen
     replacements = [
