@@ -38,21 +38,17 @@ def lambda_handler(event, context):
                     result = processor.process_record(record, output_format)
                     if "ProcessingFailed" in result["result"]:
                         logger.error(
-                            "Unable to process record with following data: ",
-                            record["data"],
-                        )
+                            f"Error processing record data: {result}")
                         failures += 1
                     else:
                         successes += 1
                     processed_records.append(result)
         except Exception as e:
             # Catch any errors in the case the event has no records, etc
-            logger.error(f"Error processing records: {repr(e)}")
             raise RecordParsingError(e)
 
         logger.info(
-            f"Processing complete. Successful transformations - {successes}. 
-            Failed transformations - {failures}."
+            f"Processing complete. Successful transformations - {successes}. Failed transformations - {failures}."
         )
 
         logger.info("Finished lambda processing.")
@@ -60,21 +56,20 @@ def lambda_handler(event, context):
 
 
 def _pull_schema_name(stream_arn):
-    """Given a Firehose event's stream ARN, pulls encoded schema type.
+    """
+    Given a Firehose event's stream ARN, pulls encoded schema type.
     Example input -- "arn:aws:kinesis:us-east-1:946183545209:stream/PcReserve-production"
     Example output -- "PcReserve"
     """
     filtered_for_stream_name = stream_arn.split(":").pop()
-    # Against convention, the "CircTransAnon" stream contains "CircTrans"
-    # encoded records, so ensure the correct schema name is chosen
     replacements = [
         ("^stream/", ""),
-        ("-[a-z]+$", ""),
-        ("^CircTransAnon$", "CircTrans"),
+        ("-[a-z]+$", "")
     ]
 
     for old, new in replacements:
-        filtered_for_stream_name = re.sub(old, new, filtered_for_stream_name)
+        filtered_for_stream_name = re.sub(
+            old, new, filtered_for_stream_name)
     return filtered_for_stream_name
 
 

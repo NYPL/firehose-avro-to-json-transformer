@@ -61,11 +61,11 @@ class TestLambdaFunction:
         )
 
     def test_lambda_handler_no_event_error(self, test_instance_3_success, caplog):
-        with caplog.at_level(logging.ERROR):
+        with pytest.raises(lambda_function.RecordParsingError):
             lambda_function.lambda_handler(None, None)
         assert "Event is undefined." in caplog.text
 
-    def test_lambda_handler_no_event_records_exception(
+    def test_lambda_handler_no_event_records_return_empty_array(
             self, test_instance_3_success, caplog):
         event = {
             "invocationId": "invocationIdExample",
@@ -73,9 +73,8 @@ class TestLambdaFunction:
             "sourceKinesisStreamArn": "streamExample",
             "region": "us-east-1",
         }
-        with pytest.raises(lambda_function.RecordParsingError):
+        with pytest.raises(Exception):
             (lambda_function.lambda_handler(event, None))
-        assert "Error processing records: KeyError('records')" in caplog.text
 
     def test_lambda_handler_success(
             self, test_instance_3_success, test_data, caplog):

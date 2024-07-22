@@ -16,7 +16,7 @@ sam local invoke --profile nypl-digital-dev -t config/sam.qa.yml -e sample/fireh
 
 The [sample](./sample) folder contains sample Firehose events and their expected outcomes after Lambda event handling, so you can test the efficacy of your code with various schemas.
 
-With Python, you also have the option of using the [python-lambda-local](https://pypi.org/project/python-lambda-local/) package for local development!
+With Python, you also have the option of using the [python-lambda-local](https://pypi.org/project/python-lambda-local/) package for local development! You will need to create a JSON file with env variables to use said package.
 
 ## Contributing / Deployment
 

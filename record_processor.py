@@ -19,7 +19,8 @@ class RecordProcessor:
         desired output format for Firehose (JSON or CSV string)
         """
         binary_record_data = base64.b64decode(record["data"])
-        decoded_record_data = self.avro_decoder.decode_record(binary_record_data)
+        decoded_record_data = self.avro_decoder.decode_record(
+            binary_record_data)
 
         if decoded_record_data is None:
             # Unable to decode Avro record
@@ -43,7 +44,6 @@ class RecordProcessor:
             data = self._transform_dictionary_to_csv_string(data)
         else:
             data = json.dumps(data)
-        
         # encode output data to base64
         to_bytes = data.encode("utf-8")
         return (base64.b64encode(to_bytes)).decode("utf-8")
