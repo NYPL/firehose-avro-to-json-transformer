@@ -1,68 +1,48 @@
 # Kinesis Firehose Avro to Json Transformer Lambda
 [![Build Status](https://travis-ci.org/NYPL/firehose-avro-to-json-transformer.svg?branch=main)](https://travis-ci.org/NYPL/firehose-avro-to-json-transformer)
 
-This app reads from Firehose Kinesis streams, decodes the records using the appropriate Avro schema based on the stream name, and returns the resulting records as either JSON or CSV (base64 encoded). This app is responsible for decoding records immediately before ingest into the [BIC](https://github.com/NYPL/BIC).
-
-## Version
-> v1.0.1
-
-## Installation
-
-Install all Node dependencies via NPM
-
-```console
-nvm use
-npm install
-```
+This Python application is responsible for Avro-decoding events immediately before ingestion into the [BIC](https://github.com/NYPL/BIC). Originally developed for the Data Warehouse, this is deployed as an AWS Lambda (["AvroToJsonTransformer-qa"](https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions/AvroToJsonTransformer-qa?tab=configuration) and ["AvroToJsonTransformer-production"](https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions/AvroToJsonTransformer-production?tab=configuration)). In essence, the code does the following:
+ - Decodes the incoming batch of records using the corresponding Avro schema, which is determined based on the name of the incoming Kinesis stream
+ - Converts said records into a hash with `recordId`, `result: 'Ok'`, and `data` containing a JSON or CSV serialization of the record, which is also base64 encoded
+ - Returns processed records in this format: `{ records: [ { recordId: '[record id]', result: 'Ok', data: 'eyJmb28iOiJiYXIifQ....' }, ... ] }`
 
 ## Running Locally
 
-Use the [sam cli](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html) to run the lambda on arbitrary firehose events. To process a firehose event containing 3 CircTrans records and print out the result:
+Use the [sam cli](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html) to run the Lambda on arbitrary Firehose events. To process a Firehose event containing 3 CircTrans records and print out the result:
 
 ```
-sam local invoke --profile nypl-digital-dev -t sam.qa.yml -e sample/firehose-CircTrans-3-records-encoded.json
+sam local invoke --profile nypl-digital-dev -t config/sam.qa.yml -e sample/firehose-CircTrans-3-records-encoded.json
 ```
 
-## Contributing
+The [sample](./sample) folder contains sample Firehose events and their expected outcomes after Lambda event handling, so you can test the efficacy of your code with various schemas.
+
+With Python, you also have the option of using the [python-lambda-local](https://pypi.org/project/python-lambda-local/) package for local development! You will need to create a JSON file with env variables to use said package.
+
+## Contributing / Deployment
 
 This repo uses the ["PRs Target Main, Merge to Deployment Branches" git workflow](https://github.com/NYPL/engineering-general/blob/main/standards/git-workflow.md#prs-target-main-merge-to-deployment-branches):
  - Cut PRs from `main`
  - Merge `main` > `qa`
  - Merge `main` > `production`
 
-## Deployment
+This app is deployed via Travis-CI using Terraform. Code in `qa` is pushed to ["AvroToJsonTransformer-qa"](https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions/AvroToJsonTransformer-qa?tab=configuration). Code in `production` is pushed to ["AvroToJsonTransformer-production"](https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions/AvroToJsonTransformer-production?tab=configuration).
 
-This app is deployed via Travis-CI using terraform. Code in `qa` is pushed to AvroToJsonTransformer-qa. Code in `production` is pushed to AvroToJsonTransformer-production.
-
-## Tests
-
-To run all tests found in `./test/`:
-
-```console
-npm run test
+## Test Coverage
+Use the Python [coverage package](https://coverage.readthedocs.io/en/7.6.0/) to measure test coverage:
+```
+coverage run -m pytest
 ```
 
-To run a specific test for the given filename:
-
-```console
-npm run test [filename].test.js
+To see what exactly which lines are missing testing:
+```
+coverage report -m
 ```
 
-### Test Coverage
+## Linting
 
-This repo uses c8 to compute test coverage (because [Istanbul](https://github.com/istanbuljs/nyc) doesn't appear to support ESM at writing). Coverage reports are included at the end of `npm test`. For a detailed line-by-line breakdown, view the HTML report:
+This codebase uses [Black](https://github.com/psf/black) as the Python linter.
 
-```console
-npm run coverage-report
-open coverage/index.html
+To format the codebase as a whole:
 ```
-
-### Linting
-
-This codebase uses [Standard JS](https://www.npmjs.com/package/standard) as the JavaScript linter.
-
-To check for linting errors:
-
-```console
-npm run lint
+make lint
 ```

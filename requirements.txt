@@ -1,0 +1,4 @@
+nypl-py-utils[avro-client]==1.2.0
+pybase64
+python-csv
+python-io

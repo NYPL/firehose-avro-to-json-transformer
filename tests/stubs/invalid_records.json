@@ -1,0 +1,9 @@
+{
+    "records": [
+        {
+            "recordId": "789",
+            "data": "bad-encoding",
+            "approximateArrivalTimestamp": "2012-04-23T18:25:43.511Z"
+        }
+    ]
+}
