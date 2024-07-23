@@ -36,7 +36,8 @@ class RecordProcessor:
             data = self._transform_dictionary_to_csv_string(data)
         else:
             data = json.dumps(data)
-        # Takes original string ("data" )
+        # We need to take original string ("data" ) and convert to hex,
+        # which requires using bytes as an intermediate type
         to_bytes = data.encode("utf-8")
         return (base64.b64encode(to_bytes)).decode("utf-8")
 

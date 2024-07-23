@@ -5,7 +5,7 @@ import pytest
 # Sets OS vars for entire set of tests
 TEST_ENV_VARS = {
     "ENVIRONMENT": "test",
-    "NYPL_DATA_API_BASE_URL": "https://qa-platform.nypl.org/api/v0.1/",
+    "NYPL_DATA_API_BASE_URL": "https://qa-platform.nypl.org/api/v0.1/current-schemas/",
 }
 
 
