@@ -125,8 +125,7 @@ class TestRecordProcessor:
         return processor
 
     def test_process_record_json_no_exception(
-        self, test_data, test_pc_reserve_instance, caplog
-    ):
+        self, test_data, test_pc_reserve_instance, caplog):
         valid_records = test_data["valid_records_json"]["records"]
         expected_processed_records = [
             {
@@ -152,8 +151,7 @@ class TestRecordProcessor:
             )
 
     def test_process_records_csv_no_exception(
-        self, test_data, test_location_hours_instance, caplog
-    ):
+        self, test_data, test_location_hours_instance, caplog):
         valid_records = test_data["valid_records_csv"]["records"]
         expected_processed_records = [
             {
@@ -180,8 +178,7 @@ class TestRecordProcessor:
             )
 
     def test_process_records_exception(
-        self, test_data, test_pc_reserve_instance, test_location_hours_instance
-    ):
+        self, test_data, test_pc_reserve_instance, test_location_hours_instance):
         invalid_records = test_data["invalid_records"]
         with pytest.raises(Exception):
             test_pc_reserve_instance.process_records(invalid_records, "json")

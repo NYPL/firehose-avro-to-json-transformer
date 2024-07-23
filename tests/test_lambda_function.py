@@ -60,7 +60,8 @@ class TestLambdaFunction:
             "lambda_function.RecordProcessor", return_value=mock_record_processor
         )
 
-    def test_lambda_handler_no_event_error(self, test_instance_3_success, caplog):
+    def test_lambda_handler_no_event_error(
+            self, test_instance_3_success, caplog):
         with pytest.raises(lambda_function.RecordParsingError):
             lambda_function.lambda_handler(None, None)
         assert "Event is undefined." in caplog.text
