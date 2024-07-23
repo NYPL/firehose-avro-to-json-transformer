@@ -21,30 +21,22 @@ class RecordProcessor:
         binary_record_data = base64.b64decode(record["data"])
         decoded_record_data = self.avro_decoder.decode_record(
             binary_record_data)
+        result_string = self._format_result_string(
+            output_format, decoded_record_data
+        )
 
-        if decoded_record_data is None:
-            # Unable to decode Avro record
-            return {
-                "recordId": record["recordId"],
-                "result": "ProcessingFailed",
-                "data": record["data"],
-            }
-        else:
-            result_string = self._format_result_string(
-                output_format, decoded_record_data
-            )
-            return {
-                "recordId": record["recordId"],
-                "result": "Ok",
-                "data": result_string,  # needed for JSON conversion
-            }
+        return {
+            "recordId": record["recordId"],
+            "result": "Ok",
+            "data": result_string,  # needed for JSON conversion
+        }
 
     def _format_result_string(self, output_format, data):
         if output_format == "csv" and isinstance(data, dict):
             data = self._transform_dictionary_to_csv_string(data)
         else:
             data = json.dumps(data)
-        # encode output data to base64
+        # Takes original string ("data" )
         to_bytes = data.encode("utf-8")
         return (base64.b64encode(to_bytes)).decode("utf-8")
 

@@ -21,7 +21,7 @@ def lambda_handler(event, context):
         schema_name = _pull_schema_name(
             event["sourceKinesisStreamArn"])
         schema_url = (
-            os.environ["NYPL_DATA_API_BASE_URL"] + "current-schemas/" + f"{schema_name}"
+            os.environ["NYPL_DATA_API_BASE_URL"] + f"{schema_name}"
         )
         output_format = "json" if schema_name != "LocationHours" else "csv"
 

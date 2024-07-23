@@ -1,5 +1,5 @@
 ---
 PLAINTEXT_VARIABLES:
     ENVIRONMENT: devel
-    NYPL_DATA_API_BASE_URL: https://qa-platform.nypl.org/api/v0.1/
+    NYPL_DATA_API_BASE_URL: https://qa-platform.nypl.org/api/v0.1/current-schemas/
 ...

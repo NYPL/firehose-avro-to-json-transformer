@@ -157,17 +157,17 @@ class TestRecordProcessor:
         valid_records = test_data["valid_records_csv"]["records"]
         expected_processed_records = [
             {
-                "recordId": "49546986683135544286507457936321625675700192471156785154",
+                "recordId": "123",
                 "result": "Ok",
                 "data": "YWF8TGlicmFyeSBBfE1vbnwwOTowMHwxNzowMHwyMDIzLTAxLTAxCg==",
             },
             {
-                "recordId": "49546986683135544286507457936321625675700192471156785154",
+                "recordId": "456",
                 "result": "Ok",
                 "data": "YmJ8TGlicmFyeSBCfFR1ZXx8fDIwMjMtMDItMDIK",
             },
             {
-                "recordId": "49546986683135544286507457936321625675700192471156785154",
+                "recordId": "789",
                 "result": "Ok",
                 "data": "Y2N8TGlicmFyeSBcfCBDICEsPXxXZWR8MDE6MDB8MjM6MDB8MjAyMy0wMy0wMwo=",
             },
@@ -185,4 +185,5 @@ class TestRecordProcessor:
         invalid_records = test_data["invalid_records"]
         with pytest.raises(Exception):
             test_pc_reserve_instance.process_records(invalid_records, "json")
-            test_location_hours_instance.process_recordS(invalid_records, "csv")
+        with pytest.raises(Exception):
+            test_location_hours_instance.process_records(invalid_records, "csv")
