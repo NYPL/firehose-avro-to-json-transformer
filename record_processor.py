@@ -19,10 +19,8 @@ class RecordProcessor:
         desired output format for Firehose (JSON or CSV string)
         """
         binary_record_data = base64.b64decode(record["data"])
-        print("binary data ", binary_record_data)
         decoded_record_data = self.avro_decoder.decode_record(
             binary_record_data)
-        print("decoded record data ", decoded_record_data)
         result_string = self._format_result_string(
             output_format, decoded_record_data
         )
