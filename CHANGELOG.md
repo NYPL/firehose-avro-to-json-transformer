@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.0.2 - 7/27/24
+## v0.0.2 - 7/29/24
 - Created CHANGELOG
 - Update deployment script to reduce unnecessary dependency imports & added required packages to requirements
 - Reformatted all sample JSON files
