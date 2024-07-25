@@ -9,7 +9,8 @@
     "circ_active_date_et": "2022-12-02",
     "ptype_code": 123,
     "pcode3": 987,
-    "patron_home_library_code": "ma"
+    "patron_home_library_code": "ma",
+    "initial_patron_home_library_code": "aa"
   },
   {
     "patron_id": "patron-id-1234567891",
@@ -21,7 +22,8 @@
     "circ_active_date_et": "2022-11-02",
     "ptype_code": 456,
     "pcode3": 654,
-    "patron_home_library_code": "ma2"
+    "patron_home_library_code": "ma2",
+    "initial_patron_home_library_code": "bb"
   },
   {
     "patron_id": "patron-id-1234567892",
@@ -33,6 +35,7 @@
     "circ_active_date_et": null,
     "ptype_code": null,
     "pcode3": null,
-    "patron_home_library_code": null
+    "patron_home_library_code": null,
+    "initial_patron_home_library_code": "cc"
   }
 ]

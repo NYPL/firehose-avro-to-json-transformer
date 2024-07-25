@@ -1,5 +1,6 @@
 black
 nypl-py-utils[avro-client,config-helper]==1.2.0
 pybase64
-python-csv
+python-csv==0.0.10
 python-io
+pyyaml
