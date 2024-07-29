@@ -1,7 +1,7 @@
 {
   "invocationId": "invocationIdExample",
   "deliveryStreamArn": "arn:aws:kinesis:deliveryStream/PcReserve-qa",
-  "sourceKinesisStreamArn": "arn:aws:kinesis:us-east-1:946183545209:stream/PcReserve-qa",
+  "sourceKinesisStreamArn": "arn:aws:kinesis:us-east-1:123456789:stream/PcReserve-qa",
   "region": "us-east-1",
   "records": [
     {
