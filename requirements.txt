@@ -1,4 +1,4 @@
 avro
-nypl-py-utils[avro-client,config-helper]==1.2.0
+nypl-py-utils[avro-client,config-helper]==1.3.0
 pybase64
-requests
+python-csv
