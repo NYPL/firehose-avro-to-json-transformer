@@ -18,14 +18,22 @@ The [sample](./sample) folder contains sample Firehose events and their expected
 
 With Python, you also have the option of using the [python-lambda-local](https://pypi.org/project/python-lambda-local/) package for local development! You will need to create a JSON file with env variables to use said package.
 
-## Contributing / Deployment
+## Git workflow
+This repo uses the [Main-QA-Production](https://github.com/NYPL/engineering-general/blob/main/standards/git-workflow.md#main-qa-production) git workflow.
 
-This repo uses the ["PRs Target Main, Merge to Deployment Branches" git workflow](https://github.com/NYPL/engineering-general/blob/main/standards/git-workflow.md#prs-target-main-merge-to-deployment-branches):
- - Cut PRs from `main`
- - Merge `main` > `qa`
- - Merge `main` > `production`
+[`main`](https://github.com/NYPL/python-utils/tree/main) has the latest and greatest commits, [`qa`](https://github.com/NYPL/python-utils/tree/qa) has what's in our QA environment, and [`production`](https://github.com/NYPL/python-utils/tree/production) has what's in our production environment.
 
-This app is deployed via Travis-CI using Terraform. Code in `qa` is pushed to ["AvroToJsonTransformer-qa"](https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions/AvroToJsonTransformer-qa?tab=configuration). Code in `production` is pushed to ["AvroToJsonTransformer-production"](https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions/AvroToJsonTransformer-production?tab=configuration).
+### Ideal Workflow
+- Cut a feature branch off of `main`
+- Commit changes to your feature branch
+- File a pull request against `main` and assign a reviewer (who must be an owner)
+  - Include relevant updates to pyproject.toml and README
+  - In order for the PR to be accepted, it must pass all unit tests, have no lint issues, and update the CHANGELOG (or contain the `Skip-Changelog` label in GitHub)
+- After the PR is accepted, merge into `main`
+- Merge `main` > `qa`
+- Deploy app to QA on GitHub and confirm it works
+- Merge `qa` > `production`
+- Deploy app to production on GitHub and confirm it works
 
 ## Test Coverage
 Use the Python [coverage package](https://coverage.readthedocs.io/en/7.6.0/) to measure test coverage:

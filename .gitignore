@@ -10,7 +10,8 @@ __pycache__/
 .terraform.lock.hcl
 .terraform
 .pytest_cache
-dist.zip
+*.zip
 *env/
 *.py[cod]
 *$py.class
+package/
