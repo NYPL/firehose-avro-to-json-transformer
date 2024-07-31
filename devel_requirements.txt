@@ -1,7 +1,7 @@
 black
 certifi
 idna
-nypl-py-utils[avro-client,config-helper]==1.3.0
+nypl-py-utils[avro-client,config-helper]==1.3.1
 pybase64
 python-csv
 pyyaml
