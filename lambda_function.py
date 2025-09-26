@@ -23,7 +23,7 @@ def lambda_handler(event, context):
         schema_url = (
             os.environ["NYPL_DATA_API_BASE_URL"] + f"{schema_name}"
         )
-        output_format = "json" if schema_name != "LocationHours" else "csv"
+        output_format = "csv" if "LocationHours" in schema_name else "json"
 
         processor = RecordProcessor(schema_url)
         successes, failures = 0, 0
