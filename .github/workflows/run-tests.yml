@@ -1,24 +1,26 @@
 name: Run Python unit tests
 
-on: pull_request: types: [ labeled, unlabeled, opened, reopened, synchronize ]
+on: 
+  pull_request:
+    types: [ labeled, unlabeled, opened, reopened, synchronize ]
 
 jobs:
   changelog:
     name: Updates changelog
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
       - uses: dangoslen/changelog-enforcer@v3
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v4
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.12'
+          python-version: '3.13'
           cache: 'pip'
 
       - name: Install dependencies
