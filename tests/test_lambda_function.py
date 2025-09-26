@@ -49,7 +49,7 @@ class TestLambdaFunction:
         mocker.patch(
             "lambda_function.RecordProcessor", return_value=mock_record_processor
         )
-    
+
     @pytest.fixture
     def test_instance_1_failure_2_success(self, mocker, test_data):
         mocker.patch("lambda_function.load_env_file")
@@ -60,14 +60,14 @@ class TestLambdaFunction:
             "lambda_function.RecordProcessor", return_value=mock_record_processor
         )
 
-    def test_lambda_handler_no_event_error(
-            self, test_instance_3_success, caplog):
+    def test_lambda_handler_no_event_error(self, test_instance_3_success, caplog):
         with pytest.raises(lambda_function.RecordParsingError):
             lambda_function.lambda_handler(None, None)
         assert "Event is undefined." in caplog.text
 
     def test_lambda_handler_no_event_records_return_empty_array(
-            self, test_instance_3_success, caplog):
+        self, test_instance_3_success, caplog
+    ):
         event = {
             "invocationId": "invocationIdExample",
             "deliveryStreamArn": "deliveryExample",
@@ -77,8 +77,7 @@ class TestLambdaFunction:
         with pytest.raises(Exception):
             (lambda_function.lambda_handler(event, None))
 
-    def test_lambda_handler_success(
-            self, test_instance_3_success, test_data, caplog):
+    def test_lambda_handler_success(self, test_instance_3_success, test_data, caplog):
         event = test_data["patron_info_event"]
         assert lambda_function.lambda_handler(event, None) == {
             "records": patron_info_processed_records
@@ -88,9 +87,10 @@ class TestLambdaFunction:
             in caplog.text
         )
         assert "Finished lambda processing." in caplog.text
-    
+
     def test_lambda_handler_one_failure_two_success(
-            self, test_instance_1_failure_2_success, mocker, test_data, caplog):
+        self, test_instance_1_failure_2_success, mocker, test_data, caplog
+    ):
         event = test_data["patron_info_event"]
         assert lambda_function.lambda_handler(event, None) == {
             "records": circ_trans_processed_records

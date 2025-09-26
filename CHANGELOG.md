@@ -1,4 +1,7 @@
 # Changelog
+## v1.0.1 - 9/26/25
+- Use CSV for all LocationHours schemas
+
 ## v0.0.2 - 7/29/24
 - Created CHANGELOG
 - Update deployment script to reduce unnecessary dependency imports & added required packages to requirements

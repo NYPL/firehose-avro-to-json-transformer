@@ -18,12 +18,9 @@ def lambda_handler(event, context):
         raise RecordParsingError("No event found.")
     else:
         # All records under one event will have the same schema
-        schema_name = _pull_schema_name(
-            event["sourceKinesisStreamArn"])
-        schema_url = (
-            os.environ["NYPL_DATA_API_BASE_URL"] + f"{schema_name}"
-        )
-        output_format = "json" if schema_name != "LocationHours" else "csv"
+        schema_name = _pull_schema_name(event["sourceKinesisStreamArn"])
+        schema_url = os.environ["NYPL_DATA_API_BASE_URL"] + f"{schema_name}"
+        output_format = "csv" if "LocationHours" in schema_name else "json"
 
         processor = RecordProcessor(schema_url)
         successes, failures = 0, 0
@@ -37,8 +34,7 @@ def lambda_handler(event, context):
                 if "data" in record:
                     result = processor.process_record(record, output_format)
                     if "ProcessingFailed" in result["result"]:
-                        logger.error(
-                            f"Error processing record data: {result}")
+                        logger.error(f"Error processing record data: {result}")
                         failures += 1
                     else:
                         successes += 1
@@ -62,14 +58,10 @@ def _pull_schema_name(stream_arn):
     Example output -- "PcReserve"
     """
     filtered_for_stream_name = stream_arn.split(":").pop()
-    replacements = [
-        ("^stream/", ""),
-        ("-[a-z]+$", "")
-    ]
+    replacements = [("^stream/", ""), ("-[a-z]+$", "")]
 
     for old, new in replacements:
-        filtered_for_stream_name = re.sub(
-            old, new, filtered_for_stream_name)
+        filtered_for_stream_name = re.sub(old, new, filtered_for_stream_name)
     return filtered_for_stream_name
 
 
