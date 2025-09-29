@@ -1,0 +1,52 @@
+{
+    "name": "LocationHours",
+    "type": "record",
+    "fields": [
+        {
+            "name": "drupal_location_id",
+            "doc": "The library's id as stored in Drupal",
+            "type": [
+                "string"
+            ]
+        },
+        {
+            "name": "name",
+            "doc": "The library's full name",
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        {
+            "name": "weekday",
+            "doc": "Day of the week for which the hours apply",
+            "type": [
+                "string"
+            ]
+        },
+        {
+            "name": "regular_open",
+            "doc": "Opening time (hh:mm) for the library in ET",
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        {
+            "name": "regular_close",
+            "doc": "Closing time (hh:mm) for the library in ET",
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        {
+            "name": "date_of_change",
+            "doc": "Date (ISO 8601 date without time in ET) at which the regular hours for the given day changed",
+            "type": [
+                "null",
+                "string"
+            ]
+        }
+    ]
+}

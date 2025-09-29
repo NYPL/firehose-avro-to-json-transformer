@@ -1,7 +1,7 @@
 {
   "invocationId": "invocationIdExample",
   "deliveryStreamArn": "arn:aws:kinesis:deliveryStream/CircTransAnon-qa",
-  "sourceKinesisStreamArn": "arn:aws:kinesis:us-east-1:946183545209:stream/CircTransAnon-qa",
+  "sourceKinesisStreamArn": "arn:aws:kinesis:us-east-1:123456789:stream/CircTransAnon-qa",
   "region": "us-east-1",
   "records": [
     {

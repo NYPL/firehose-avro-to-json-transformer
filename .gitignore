@@ -2,7 +2,16 @@ node_modules
 
 coverage
 
+.aws-sam/
+.coverage
 .DS_Store
+.vscode/
+__pycache__/
 .terraform.lock.hcl
 .terraform
-dist.zip
+.pytest_cache
+*.zip
+*env/
+*.py[cod]
+*$py.class
+package/
