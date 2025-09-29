@@ -1,0 +1,24 @@
+{
+  "records": [
+    {
+      "recordId": "123",
+      "data": "ACxhYmMxMjM0NTY3ODkxMDExMTIxMzE0Agpmb3VuZAL2AQIEbWECtg8CCjU1NTU1AAAGMTIzAhgCFDIwMjEtMTItMTMCFGJyYW5jaCBhYmMCDGFyZWEgMQIaU3RhZmZPdmVycmlkZQ==",
+      "approximateArrivalTimestamp": "2012-04-23T18:25:43.511Z"
+    },
+    {
+      "recordId": "456",
+      "data": "ADBhYmMxMjM0NTY3ODkxMDExMTIxMzE0MTUCDm1pc3NpbmcAAAAAAAAGMTI0AhgCFDIwMjEtMTItMTQCFGJyYW5jaCBkZWYCDGFyZWEgMgA=",
+      "approximateArrivalTimestamp": "2012-04-23T18:25:43.511Z"
+    },
+    {
+      "recordId": "789",
+      "data": "ADRhYmMxMjM0NTY3ODkxMDExMTIxMzE0MTUxNgIUZ3Vlc3QgcGFzcwAAAAAAAAYxMjUCHgIUMjAyMS0xMi0xNQIUYnJhbmNoIGdoaQIMYXJlYSAzAA==",
+      "approximateArrivalTimestamp": "2012-04-23T18:25:43.511Z"
+    }
+  ],
+  "region": "us-east-1",
+  "deliveryStreamArn": "arn:aws:kinesis:EXAMPLE",
+  "invocationId": "invocationIdExample"
+}
+
+
