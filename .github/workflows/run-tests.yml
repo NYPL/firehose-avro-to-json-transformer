@@ -9,13 +9,13 @@ jobs:
     name: Updates changelog
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: dangoslen/changelog-enforcer@v3
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Set up Python 3.13
         uses: actions/setup-python@v6
