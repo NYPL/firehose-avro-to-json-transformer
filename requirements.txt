@@ -1,2 +1,2 @@
-nypl-py-utils[avro-client,config-helper]==1.7.0
+nypl-py-utils[avro-client,config-helper]==1.10.2
 pybase64
